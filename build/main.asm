@@ -9,7 +9,8 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _main
-	.globl _printf
+	.globl _set_sprite_data
+	.globl _Assets_TestTile
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -21,6 +22,8 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _INITIALIZED
+_Assets_TestTile::
+	.ds 16
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -41,23 +44,53 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;..\main.c:4: int main()
+;..\src\main.c:6: int main()
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;..\main.c:6: printf("Hello World!");
-	ld	de, #___str_0
+;..\src\main.c:8: set_sprite_data(0, 1, Assets_TestTile);
+	ld	de, #_Assets_TestTile
 	push	de
-	call	_printf
-	pop	hl
-;..\main.c:7: return 0;
+	xor	a, a
+	inc	a
+	push	af
+	call	_set_sprite_data
+	add	sp, #4
+;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+	ld	hl, #(_shadow_OAM + 2)
+	ld	(hl), #0x00
+;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+	ld	hl, #_shadow_OAM
+;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+	ld	a, #0x4e
+	ld	(hl+), a
+	ld	(hl), #0x58
+;..\src\main.c:11: SHOW_SPRITES;
+	ldh	a, (_LCDC_REG + 0)
+	or	a, #0x02
+	ldh	(_LCDC_REG + 0), a
+;..\src\main.c:12: return 0;
 	ld	de, #0x0000
-;..\main.c:8: }
+;..\src\main.c:13: }
 	ret
-___str_0:
-	.ascii "Hello World!"
-	.db 0x00
 	.area _CODE
 	.area _INITIALIZER
+__xinit__Assets_TestTile:
+	.db #0xff	; 255
+	.db #0xff	; 255
+	.db #0x91	; 145
+	.db #0x91	; 145
+	.db #0xff	; 255
+	.db #0x91	; 145
+	.db #0xff	; 255
+	.db #0xff	; 255
+	.db #0xff	; 255
+	.db #0x89	; 137
+	.db #0x89	; 137
+	.db #0xff	; 255
+	.db #0xff	; 255
+	.db #0xff	; 255
+	.db #0xff	; 255
+	.db #0xff	; 255
 	.area _CABS (ABS)

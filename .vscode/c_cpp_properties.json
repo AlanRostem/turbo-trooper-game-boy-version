@@ -5,8 +5,8 @@
             "includePath": [
                 "C:\\gbdk\\include"
             ],
-            "intelliSenseMode": "windows-msvc-x64",
-            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\bin\\Hostx64\\x64\\cl.exe",
+            //"intelliSenseMode": "windows-msvc-x64",
+            "compilerPath": "C:\\gbdk\\bin\\lcc.exe",
             "cStandard": "c17"
         }
     ],
