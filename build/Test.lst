@@ -1,0 +1,104 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.6 #12539 (MINGW32)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module Test
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _Test
+                                     12 	.globl _gotogxy
+                                     13 	.globl _gprintf
+                                     14 	.globl _waitpad
+                                     15 ;--------------------------------------------------------
+                                     16 ; special function registers
+                                     17 ;--------------------------------------------------------
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area _DATA
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area _INITIALIZED
+                                     26 ;--------------------------------------------------------
+                                     27 ; absolute external ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _DABS (ABS)
+                                     30 ;--------------------------------------------------------
+                                     31 ; global & static initialisations
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _HOME
+                                     34 	.area _GSINIT
+                                     35 	.area _GSFINAL
+                                     36 	.area _GSINIT
+                                     37 ;--------------------------------------------------------
+                                     38 ; Home
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _HOME
+                                     41 	.area _HOME
+                                     42 ;--------------------------------------------------------
+                                     43 ; code
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _CODE
+                                     46 ;src/Test.c:5: void Test()
+                                     47 ;	---------------------------------
+                                     48 ; Function Test
+                                     49 ; ---------------------------------
+      000000                         50 _Test::
+                                     51 ;src/Test.c:8: gotogxy(3,8); // set text start position
+      000000 21 03 08                52 	ld	hl, #0x803
+      000003 E5                      53 	push	hl
+      000004 CDr00r00                54 	call	_gotogxy
+      000007 E1                      55 	pop	hl
+                                     56 ;src/Test.c:9: gprintf("Press Start...");
+      000008 11r39r00                57 	ld	de, #___str_0
+      00000B D5                      58 	push	de
+      00000C CDr00r00                59 	call	_gprintf
+      00000F E1                      60 	pop	hl
+                                     61 ;src/Test.c:10: waitpad(J_START); // wait for start
+      000010 3E 80                   62 	ld	a, #0x80
+      000012 F5                      63 	push	af
+      000013 33                      64 	inc	sp
+      000014 CDr00r00                65 	call	_waitpad
+      000017 33                      66 	inc	sp
+                                     67 ;src/Test.c:11: gotogxy(3,8); // reset text start position
+      000018 21 03 08                68 	ld	hl, #0x803
+      00001B E5                      69 	push	hl
+      00001C CDr00r00                70 	call	_gotogxy
+      00001F E1                      71 	pop	hl
+                                     72 ;src/Test.c:12: gprintf("              "); // clear message
+      000020 11r48r00                73 	ld	de, #___str_1
+      000023 D5                      74 	push	de
+      000024 CDr00r00                75 	call	_gprintf
+      000027 E1                      76 	pop	hl
+                                     77 ;src/Test.c:15: gotogxy(3,8); // set text start position
+      000028 21 03 08                78 	ld	hl, #0x803
+      00002B E5                      79 	push	hl
+      00002C CDr00r00                80 	call	_gotogxy
+      00002F E1                      81 	pop	hl
+                                     82 ;src/Test.c:16: gprintf("Welcome, Trooper!"); // print message
+      000030 11r57r00                83 	ld	de, #___str_2
+      000033 D5                      84 	push	de
+      000034 CDr00r00                85 	call	_gprintf
+      000037 E1                      86 	pop	hl
+                                     87 ;src/Test.c:17: }
+      000038 C9                      88 	ret
+      000039                         89 ___str_0:
+      000039 50 72 65 73 73 20 53    90 	.ascii "Press Start..."
+             74 61 72 74 2E 2E 2E
+      000047 00                      91 	.db 0x00
+      000048                         92 ___str_1:
+      000048 20 20 20 20 20 20 20    93 	.ascii "              "
+             20 20 20 20 20 20 20
+      000056 00                      94 	.db 0x00
+      000057                         95 ___str_2:
+      000057 57 65 6C 63 6F 6D 65    96 	.ascii "Welcome, Trooper!"
+             2C 20 54 72 6F 6F 70
+             65 72 21
+      000068 00                      97 	.db 0x00
+                                     98 	.area _CODE
+                                     99 	.area _INITIALIZER
+                                    100 	.area _CABS (ABS)
