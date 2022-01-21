@@ -6,7 +6,7 @@ S _waitpad Ref000000
 S _gprintf Ref000000
 S .__.ABS. Def000000
 S _gotogxy Ref000000
-A _CODE size 69 flags 0 addr 0
+A _CODE size 67 flags 0 addr 0
 S _Test Def000000
 A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
@@ -42,7 +42,7 @@ T 55 00 00 20 00
 R 00 00 00 00
 T 57 00 00
 R 00 00 00 00
-T 57 00 00 57 65 6C 63 6F 6D 65 2C 20 54 72 6F 6F
+T 57 00 00 57 65 6C 63 6F 6D 65 2C 20 54 75 72 62
 R 00 00 00 00
-T 64 00 00 70 65 72 21 00
+T 64 00 00 6F 21 00
 R 00 00 00 00

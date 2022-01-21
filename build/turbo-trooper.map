@@ -30,10 +30,10 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      00000005  l__INITIA |    00000005  l__INITIA |    00000006  l__HEADER
      00000007  l__HEADER |    00000008  l__HEADER |    0000000C  l__GSINIT
      00000010  l__DRAW_H |    00000030  l__HEADER |    0000004E  l__HEADER
-     0000004F  l__DATA   |    0000007F  l__CODE   |    00000082  l__HEADER
-     00000200  s__CODE   |    0000027F  s__HOME   |    00001D3E  l__HOME  
-     00001FBD  s__BASE   |    00001FBD  s__CODE_0 |    00001FBD  s__INITIA
-     00001FBD  s__LIT    |    00001FC2  s__GSINIT |    00001FCE  s__GSFINA
+     0000004F  l__DATA   |    0000007D  l__CODE   |    00000082  l__HEADER
+     00000200  s__CODE   |    0000027D  s__HOME   |    00001D3E  l__HOME  
+     00001FBB  s__BASE   |    00001FBB  s__CODE_0 |    00001FBB  s__INITIA
+     00001FBB  s__LIT    |    00001FC0  s__GSINIT |    00001FCC  s__GSFINA
      0000C000  _shadow_O |    0000C0A0  s__DATA   |    0000C0EF  s__BSS   
      0000C0EF  s__INITIA |    0000C0F4  s__HEAP   |    0000E000  .STACK   
      0000FF80  .refresh_
@@ -42,11 +42,11 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    0000007F =         127. bytes (REL,CON)
+_CODE                  00000200    0000007D =         125. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000200  _Test     |    00000269  _main     |    0000026C  _digits  
+     00000200  _Test     |    00000267  _main     |    0000026A  _digits  
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
@@ -221,55 +221,55 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  0000027F    00001D3E =        7486. bytes (REL,CON)
+_HOME                  0000027D    00001D3E =        7486. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     0000027F  .memset_s |    00000288  .memcpy_s |    000002A5  .remove_V
-     000002A8  .remove_i |    000002C5  .add_VBL  |    000002C8  .add_int 
-     000002D3  .wait_vbl |    000002D3  _wait_vbl |    000002E3  .display_
-     000002E3  _display_ |    000002FB  _remove_V |    00000306  _add_VBL 
-     00000311  .padup    |    00000311  _waitpadu |    00000321  .jpad    
-     00000321  _joypad   |    00000349  _waitpad  |    0000034C  .wait_pad
-     00000353  _gprintf  |    00000485  _gprintn  |    000004D7  .gmode   
-     00000539  .draw_ima |    00000543  .switch_d |    0000057D  .adv_gcur
-     0000059A  .circle   |    0000063D  .horlin   |    00000675  .verlin  
-     000006D1  .circplot |    0000074F  .box      |    00000825  .line    
-     00000946  .xonly    |    00000A98  .yonly    |    00000AB9  .plot    
-     00000AD6  .wrbyte   |    00000B58  .getpix   |    00000B8D  .wrtchr  
-     00000BF1  _gotogxy  |    00000BFC  _wrtchr   |    00000C11  _getpix  
-     00000C1D  _circle   |    00000C37  _box      |    00000C5B  _line    
-     00000C73  _plot_poi |    00000C87  _plot     |    00000CA3  _switch_d
-     00000CBE  _draw_ima |    00000CD1  .y_table  |    00000DF1  _gprint  
-     00000E04  .init_wtt |    00000E0C  .init_btt |    00000E1A  .init_tt 
-     00000E1D  .init_vra |    00000E42  .drawing_ |    00000E4D  .drawing_
-     00000E5A  .copy_vra |    00000E6E  _get_data |    00000E6E  _set_data
-     00000E6E  _vmemcpy  |    00000EB0  _add_LCD  |    00000EBB  .add_LCD 
-     00000EC1  _remove_L |    00000ECC  .remove_L |    00000ED2  __divsuch
-     00000EDF  __modsuch |    00000EE9  __divusch |    00000EFB  __modusch
-     00000F0B  __divscha |    00000F17  __modscha |    00000F21  __divsint
-     00000F32  __modsint |    00000F41  __divucha |    00000F4D  __moducha
-     00000F57  __divuint |    00000F68  __moduint |    00000F77  .div8    
-     00000F77  .mod8     |    00000F7F  .div16    |    00000F7F  .mod16   
-     00000FB5  .divu8    |    00000FB5  .modu8    |    00000FB8  .divu16  
-     00000FB8  .modu16   |    00000FF9  _font_loa |    00001000  _font_ibm
-     00001102  _font_ibm |    00001902  _color    |    00001902  _set_1bpp
-     00001911  _font_loa |    00001918  font_load |    00001960  font_copy
-     00001996  font_set  |    000019A3  .put_char |    000019BB  .out_char
-     000019C1  .del_char |    00001A17  _putchar  |    00001A20  _setchar 
-     00001A29  _font_loa |    00001A37  _font_set |    00001A46  _font_ini
-     00001A65  .cls      |    00001A65  _cls      |    00001A87  _gotoxy  
-     00001A92  _posx     |    00001AA3  _posy     |    00001ACB  .cr_curs 
-     00001AE0  .adv_curs |    00001B3C  .tmode    |    00001B65  .tmode_ou
-     00001B6E  _set_tile |    00001B73  _set_bkg_ |    00001B73  _set_win_
-     00001B7B  _set_spri |    00001BAB  _set_bkg_ |    00001BAB  _set_win_
-     00001BB3  _set_spri |    00001C0B  _font_ibm
+     0000027D  .memset_s |    00000286  .memcpy_s |    000002A3  .remove_V
+     000002A6  .remove_i |    000002C3  .add_VBL  |    000002C6  .add_int 
+     000002D1  .wait_vbl |    000002D1  _wait_vbl |    000002E1  .display_
+     000002E1  _display_ |    000002F9  _remove_V |    00000304  _add_VBL 
+     0000030F  .padup    |    0000030F  _waitpadu |    0000031F  .jpad    
+     0000031F  _joypad   |    00000347  _waitpad  |    0000034A  .wait_pad
+     00000351  _gprintf  |    00000483  _gprintn  |    000004D5  .gmode   
+     00000537  .draw_ima |    00000541  .switch_d |    0000057B  .adv_gcur
+     00000598  .circle   |    0000063B  .horlin   |    00000673  .verlin  
+     000006CF  .circplot |    0000074D  .box      |    00000823  .line    
+     00000944  .xonly    |    00000A96  .yonly    |    00000AB7  .plot    
+     00000AD4  .wrbyte   |    00000B56  .getpix   |    00000B8B  .wrtchr  
+     00000BEF  _gotogxy  |    00000BFA  _wrtchr   |    00000C0F  _getpix  
+     00000C1B  _circle   |    00000C35  _box      |    00000C59  _line    
+     00000C71  _plot_poi |    00000C85  _plot     |    00000CA1  _switch_d
+     00000CBC  _draw_ima |    00000CCF  .y_table  |    00000DEF  _gprint  
+     00000E02  .init_wtt |    00000E0A  .init_btt |    00000E18  .init_tt 
+     00000E1B  .init_vra |    00000E40  .drawing_ |    00000E4B  .drawing_
+     00000E58  .copy_vra |    00000E6C  _get_data |    00000E6C  _set_data
+     00000E6C  _vmemcpy  |    00000EAE  _add_LCD  |    00000EB9  .add_LCD 
+     00000EBF  _remove_L |    00000ECA  .remove_L |    00000ED0  __divsuch
+     00000EDD  __modsuch |    00000EE7  __divusch |    00000EF9  __modusch
+     00000F09  __divscha |    00000F15  __modscha |    00000F1F  __divsint
+     00000F30  __modsint |    00000F3F  __divucha |    00000F4B  __moducha
+     00000F55  __divuint |    00000F66  __moduint |    00000F75  .div8    
+     00000F75  .mod8     |    00000F7D  .div16    |    00000F7D  .mod16   
+     00000FB3  .divu8    |    00000FB3  .modu8    |    00000FB6  .divu16  
+     00000FB6  .modu16   |    00000FF7  _font_loa |    00000FFE  _font_ibm
+     00001100  _font_ibm |    00001900  _color    |    00001900  _set_1bpp
+     0000190F  _font_loa |    00001916  font_load |    0000195E  font_copy
+     00001994  font_set  |    000019A1  .put_char |    000019B9  .out_char
+     000019BF  .del_char |    00001A15  _putchar  |    00001A1E  _setchar 
+     00001A27  _font_loa |    00001A35  _font_set |    00001A44  _font_ini
+     00001A63  .cls      |    00001A63  _cls      |    00001A85  _gotoxy  
+     00001A90  _posx     |    00001AA1  _posy     |    00001AC9  .cr_curs 
+     00001ADE  .adv_curs |    00001B3A  .tmode    |    00001B63  .tmode_ou
+     00001B6C  _set_tile |    00001B71  _set_bkg_ |    00001B71  _set_win_
+     00001B79  _set_spri |    00001BA9  _set_bkg_ |    00001BA9  _set_win_
+     00001BB1  _set_spri |    00001C09  _font_ibm
 ASxxxx Linker V03.00 + NoICE + sdld,  page 22.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           00001FBD    00000005 =           5. bytes (REL,CON)
+_INITIALIZER           00001FBB    00000005 =           5. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -278,17 +278,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                00001FC2    0000000C =          12. bytes (REL,CON)
+_GSINIT                00001FC0    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00001FC2  gsinit   
+     00001FC0  gsinit   
 ASxxxx Linker V03.00 + NoICE + sdld,  page 24.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               00001FCE    00000001 =           1. bytes (REL,CON)
+_GSFINAL               00001FCC    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    

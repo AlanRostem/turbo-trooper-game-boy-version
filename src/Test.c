@@ -1,6 +1,7 @@
 #include <gb/gb.h>
 #include <gb/drawing.h>
 #include <stdio.h>
+#include "Test.h"
 
 void Test()
 {
@@ -13,5 +14,5 @@ void Test()
 
     // display message to screen
     gotogxy(3,8); // set text start position
-    gprintf("Welcome, Trooper!"); // print message
+    gprintf("Welcome, Turbo!"); // print message
 }

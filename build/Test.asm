@@ -8,10 +8,10 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _Test
 	.globl _gotogxy
 	.globl _gprintf
 	.globl _waitpad
+	.globl _Test
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -43,48 +43,48 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/Test.c:5: void Test()
+;src/Test.c:6: void Test()
 ;	---------------------------------
 ; Function Test
 ; ---------------------------------
 _Test::
-;src/Test.c:8: gotogxy(3,8); // set text start position
+;src/Test.c:9: gotogxy(3,8); // set text start position
 	ld	hl, #0x803
 	push	hl
 	call	_gotogxy
 	pop	hl
-;src/Test.c:9: gprintf("Press Start...");
+;src/Test.c:10: gprintf("Press Start...");
 	ld	de, #___str_0
 	push	de
 	call	_gprintf
 	pop	hl
-;src/Test.c:10: waitpad(J_START); // wait for start
+;src/Test.c:11: waitpad(J_START); // wait for start
 	ld	a, #0x80
 	push	af
 	inc	sp
 	call	_waitpad
 	inc	sp
-;src/Test.c:11: gotogxy(3,8); // reset text start position
+;src/Test.c:12: gotogxy(3,8); // reset text start position
 	ld	hl, #0x803
 	push	hl
 	call	_gotogxy
 	pop	hl
-;src/Test.c:12: gprintf("              "); // clear message
+;src/Test.c:13: gprintf("              "); // clear message
 	ld	de, #___str_1
 	push	de
 	call	_gprintf
 	pop	hl
-;src/Test.c:15: gotogxy(3,8); // set text start position
+;src/Test.c:16: gotogxy(3,8); // set text start position
 	ld	hl, #0x803
 	push	hl
 	call	_gotogxy
 	pop	hl
-;src/Test.c:16: gprintf("Welcome, Trooper!"); // print message
+;src/Test.c:17: gprintf("Welcome, Turbo!"); // print message
 	ld	de, #___str_2
 	push	de
 	call	_gprintf
 	pop	hl
-;src/Test.c:17: }
+;src/Test.c:18: }
 	ret
 ___str_0:
 	.ascii "Press Start..."
@@ -93,7 +93,7 @@ ___str_1:
 	.ascii "              "
 	.db 0x00
 ___str_2:
-	.ascii "Welcome, Trooper!"
+	.ascii "Welcome, Turbo!"
 	.db 0x00
 	.area _CODE
 	.area _INITIALIZER
