@@ -1,5 +1,6 @@
 AS = lcc -c
 CC = lcc -Wa-l -Wl-m
+CFLAGS = -c -Wall -g -Os
 
 project_name = turbo-trooper
 
@@ -15,6 +16,10 @@ all: $(BIN)
 
 %.s: %.ms
 	maccer -o $@ $<
+
+%.o: %.c
+   $(CC) $(CFLAGS) $^ -o $@
+
 
 $(BIN): $(OBJ) | $(BIN_DIR)
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@

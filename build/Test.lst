@@ -79,7 +79,7 @@
       00002B E5                      79 	push	hl
       00002C CDr00r00                80 	call	_gotogxy
       00002F E1                      81 	pop	hl
-                                     82 ;src/Test.c:17: gprintf("Welcome, Turbo!"); // print message
+                                     82 ;src/Test.c:17: gprintf("Lol!"); // print message
       000030 11r57r00                83 	ld	de, #___str_2
       000033 D5                      84 	push	de
       000034 CDr00r00                85 	call	_gprintf
@@ -95,10 +95,8 @@
              20 20 20 20 20 20 20
       000056 00                      94 	.db 0x00
       000057                         95 ___str_2:
-      000057 57 65 6C 63 6F 6D 65    96 	.ascii "Welcome, Turbo!"
-             2C 20 54 75 72 62 6F
-             21
-      000066 00                      97 	.db 0x00
+      000057 4C 6F 6C 21             96 	.ascii "Lol!"
+      00005B 00                      97 	.db 0x00
                                      98 	.area _CODE
                                      99 	.area _INITIALIZER
                                     100 	.area _CABS (ABS)

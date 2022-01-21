@@ -79,7 +79,7 @@ _Test::
 	push	hl
 	call	_gotogxy
 	pop	hl
-;src/Test.c:17: gprintf("Welcome, Turbo!"); // print message
+;src/Test.c:17: gprintf("Lol!"); // print message
 	ld	de, #___str_2
 	push	de
 	call	_gprintf
@@ -93,7 +93,7 @@ ___str_1:
 	.ascii "              "
 	.db 0x00
 ___str_2:
-	.ascii "Welcome, Turbo!"
+	.ascii "Lol!"
 	.db 0x00
 	.area _CODE
 	.area _INITIALIZER
