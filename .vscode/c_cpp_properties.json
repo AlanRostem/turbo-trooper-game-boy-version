@@ -3,7 +3,8 @@
         {
             "name": "GB",
             "includePath": [
-                "C:\\gbdk\\include"
+                "C:\\gbdk\\include",
+                "src\\include"
             ],
             //"intelliSenseMode": "windows-msvc-x64",
             "compilerPath": "C:\\gbdk\\bin\\lcc.exe",
