@@ -1,7 +1,7 @@
 #include <gb/gb.h>
 #include <stdio.h>
 
-#include "include/assets/sprites/TestTile.c"
+#include "include/assets/sprites/TestTile.h"
 
 int main()
 {
