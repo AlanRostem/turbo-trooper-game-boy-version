@@ -17,10 +17,6 @@ all: $(BIN)
 %.s: %.ms
 	maccer -o $@ $<
 
-%.o: %.c
-   $(CC) $(CFLAGS) $^ -o $@
-
-
 $(BIN): $(OBJ) | $(BIN_DIR)
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
