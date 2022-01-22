@@ -5,14 +5,14 @@
 
 void Test()
 {
-    // start screen (press start to continue)
-    gotogxy(3,8); // set text start position
-    gprintf("Press Start...");
-    waitpad(J_START); // wait for start
-    gotogxy(3,8); // reset text start position
-    gprintf("              "); // clear message
+	// start screen (press start to continue)
+	gotogxy(3,8); // set text start position
+	gprintf("Press Start...");
+	waitpad(J_START); // wait for start
+	gotogxy(3,8); // reset text start position
+	gprintf("			  "); // clear message
 
-    // display message to screen
-    gotogxy(3,8); // set text start position
-    gprintf("Welcome, Trooper!"); // print message
+	// display message to screen
+	gotogxy(3,8); // set text start position
+	gprintf("Welcome, Trooper!"); // print message
 }
