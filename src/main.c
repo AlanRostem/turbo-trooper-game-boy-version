@@ -12,5 +12,5 @@ void main()
     Sprite_load(&cracked_stone_sprite);
     Sprite_set_tile(&cracked_stone_sprite, 0);
     move_sprite(80, 72);
-    Graphics_shows_sprites();
+    Graphics_show_sprites();
 }
