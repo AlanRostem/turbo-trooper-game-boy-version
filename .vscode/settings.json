@@ -2,7 +2,6 @@
     "files.associations": {
         "stdio.h": "c",
         "gb.h": "c",
-        "testtile.h": "c",
-        "test.h": "c"
+        "crackedstonetile.h": "c"
     }
 }
