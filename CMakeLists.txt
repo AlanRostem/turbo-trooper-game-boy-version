@@ -1,14 +1,17 @@
 set(CMAKE_C_COMPILER lcc)
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.12)
 
-project(helloworld C)
+project(turbo-trooper C)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wa-l -Wl-m -Wl-j -DUSE_SFR_FOR_REG")
 
 include_directories(
     "."
+    "C:/gbdk/include"
 )
+
+add_compile_definitions(__PORT_gbz80)
 
 file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/*.c")
 

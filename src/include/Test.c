@@ -5,6 +5,7 @@
 
 void Test()
 {
+	
 	// start screen (press start to continue)
 	gotogxy(3,8); // set text start position
 	gprintf("Press Start...");
