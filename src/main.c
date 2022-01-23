@@ -2,13 +2,15 @@
 #include <gb/drawing.h>
 
 #include "assets/sprites/CrackedStoneTile.h"
+#include "graphics/Sprite.h"
 
-const uint8_t SCREEN_WIDTH = 160u;
-const uint8_t SCREEN_HEIGHT = 144u;
+Sprite cracked_stone_sprite;
 
-void main(){
-    set_sprite_data(0, 0, CrackedStoneTile);
-    set_sprite_tile(0, 0);
-    move_sprite(0, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-    SHOW_SPRITES;
+void main()
+{
+    Sprite_create(&cracked_stone_sprite, CrackedStoneTile, 0);
+    Sprite_load(&cracked_stone_sprite);
+    Sprite_set_tile(&cracked_stone_sprite, 0);
+    move_sprite(80, 72);
+    Graphics_shows_sprites();
 }
