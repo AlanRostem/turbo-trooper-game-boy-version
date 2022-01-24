@@ -1,4 +1,6 @@
 #include "Sprite.h"
+#include <gb/drawing.h>
+
 /*
 #ifndef NDEBUG
 #include <stdio.h>
@@ -12,9 +14,8 @@ void Graphics_show_sprites()
     SHOW_SPRITES;
 }
 
-void Sprite_create(Sprite* sprite, uint8_t* image_data, uint8_t tile_count)
+void Sprite_create(Sprite* sprite, uint8_t tile_count)
 {
-    sprite->data = image_data;
     sprite->sprite_number = sprites_used++;
     sprite->tile_count = tile_count;
     /*
@@ -25,9 +26,9 @@ void Sprite_create(Sprite* sprite, uint8_t* image_data, uint8_t tile_count)
 }
 
 
-void Sprite_load(Sprite* sprite)
+void Sprite_load(Sprite* sprite, uint8_t* image_data)
 {
-    set_sprite_data(0, sprite->tile_count, sprite->data);
+    set_sprite_data(0, sprite->tile_count, image_data);
 }
 
 void Sprite_set_tile(Sprite* sprite, uint8_t tile)
