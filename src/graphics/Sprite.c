@@ -1,4 +1,7 @@
 #include "Sprite.h"
+#include "MetaSprite16x16.h"
+#include "Graphics.h"
+
 #include <gb/drawing.h>
 
 /*
@@ -7,22 +10,10 @@
 #endif
 */
 
-static uint8_t sprites_used = 0;
-
-void Graphics_show_sprites()
-{
-    SHOW_SPRITES;
-}
-
 void Sprite_create(Sprite* sprite, uint8_t tile_count)
 {
-    sprite->sprite_number = sprites_used++;
+    sprite->sprite_number = Graphics_generate_sprite_number();
     sprite->tile_count = tile_count;
-    /*
-#ifndef NDEBUG
-    assert(sprite->sprite_number == MAX_HARDWARE_SPRITES);
-#endif
-    */
 }
 
 

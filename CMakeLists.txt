@@ -13,5 +13,5 @@ include_directories(
 
 file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/*.c")
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} src/graphics/Graphics.h src/graphics/Graphics.c)
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME} SUFFIX ".gb")
