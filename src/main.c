@@ -8,9 +8,9 @@ Sprite cracked_stone_sprite;
 
 void main()
 {
-    Sprite_create(&cracked_stone_sprite, 0);
-    Sprite_load(&cracked_stone_sprite, CrackedStoneTile);
+    Sprite_create(&cracked_stone_sprite);
+    Sprite_load(&cracked_stone_sprite, 0, CrackedStoneTile);
     Sprite_set_tile(&cracked_stone_sprite, 0);
-    Sprite_set_position(&cracked_stone_sprite, 40, 100);
+    Sprite_set_position(&cracked_stone_sprite, 100, 100);
     Graphics_show_sprites();
 }
