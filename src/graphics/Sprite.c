@@ -14,9 +14,10 @@ void Graphics_show_sprites()
     SHOW_SPRITES;
 }
 
-void Sprite_create(Sprite* sprite)
+void Sprite_create(Sprite* sprite, uint8_t tile_count)
 {
     sprite->sprite_number = sprites_used++;
+    sprite->tile_count = tile_count;
     /*
 #ifndef NDEBUG
     assert(sprite->sprite_number == MAX_HARDWARE_SPRITES);
@@ -25,9 +26,9 @@ void Sprite_create(Sprite* sprite)
 }
 
 
-void Sprite_load(Sprite* sprite, uint8_t tile_count, uint8_t* image_data)
+void Sprite_load(Sprite* sprite, uint8_t* image_data)
 {
-    set_sprite_data(0, tile_count, image_data);
+    set_sprite_data(0, sprite->tile_count, image_data);
 }
 
 void Sprite_set_tile(Sprite* sprite, uint8_t tile)
