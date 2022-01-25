@@ -4,6 +4,7 @@
 
 #include "graphics/Sprite.h"
 #include "graphics/Graphics.h"
+#include "memory/Memory.h"
 
 const uint8_t FRAME_DELTA = 17;
 

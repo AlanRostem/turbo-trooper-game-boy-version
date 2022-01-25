@@ -24,3 +24,9 @@ uint8_t Memory_generate_hardware_sprite_number() {
     }
     return MAX_HARDWARE_SPRITES;
 }
+
+uint8_t Memory_free_hardware_sprite_number(uint8_t sprite_number) {
+    uint8_t i = sprite_number / 8;
+    unused_hardware_sprite_bit_masks[i] = uint8_set_bit(unused_hardware_sprite_bit_masks[i], sprite_number % 8, TRUE);
+    return 0;
+}

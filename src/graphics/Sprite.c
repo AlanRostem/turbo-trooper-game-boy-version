@@ -15,8 +15,6 @@ void Sprite_setup_for_display(Sprite* sprite)
 {
     sprite->hardware_sprite_number = Memory_generate_hardware_sprite_number();
     set_sprite_tile(sprite->hardware_sprite_number, sprite->tile_position_in_memory);
-    printf("%u", sprite->hardware_sprite_number);
-
 }
 
 void Sprite_set_frame(Sprite* sprite, uint8_t frame)
