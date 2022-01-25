@@ -1,8 +1,7 @@
-#include <gb/gb.h>
-#include <gb/drawing.h>
 
 #include "assets/sprites/CrackedStoneTile.h"
 #include "assets/sprites/BricksSingleTile.h"
+
 #include "graphics/Sprite.h"
 #include "graphics/Graphics.h"
 
@@ -15,7 +14,7 @@ int main()
 {
     Sprite_create(&cracked_stone_sprite, 1, CrackedStoneTile);
     Sprite_setup_for_display(&cracked_stone_sprite);
-    Sprite_set_position(&cracked_stone_sprite, 80, 80);
+    Sprite_set_position(&cracked_stone_sprite, 10, 80);
 
     Sprite_create(&bricks_single_sprite, 1, BricksSingleTile);
     Sprite_setup_for_display(&bricks_single_sprite);

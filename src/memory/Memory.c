@@ -1,7 +1,9 @@
 #include "Memory.h"
+#include "../util/Util.h"
 
-static uint8_t hardware_sprites_used = 0;
 static uint8_t vram_tiles_occupied = 0;
+
+static uint8_t unused_hardware_sprite_bit_masks[5] = {255, 255, 255, 255,255};
 
 uint8_t Memory_allocate_and_write_sprite_data(uint8_t tile_count, uint8_t* image_data) {
     uint8_t mem_pos = vram_tiles_occupied;
@@ -11,6 +13,13 @@ uint8_t Memory_allocate_and_write_sprite_data(uint8_t tile_count, uint8_t* image
 }
 
 uint8_t Memory_generate_hardware_sprite_number() {
-    // TODO: In debug mode, check if this exceeds the 40 limit
-    return hardware_sprites_used++;
+    for (uint8_t i = 0; i < 5; i++) {
+        uint8_t bit_mask = unused_hardware_sprite_bit_masks[i];
+        if (bit_mask) {
+            uint8_t bit_pos = uint8_get_rightmost_set_bit_position(bit_mask);
+            unused_hardware_sprite_bit_masks[i] = uint8_set_bit(bit_mask, bit_pos, FALSE);
+            return bit_pos * (i + 1);
+        }
+    }
+    return MAX_HARDWARE_SPRITES;
 }
