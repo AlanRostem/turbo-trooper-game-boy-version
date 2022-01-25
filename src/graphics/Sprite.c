@@ -2,6 +2,7 @@
 #include "../memory/Memory.h"
 
 #include <gb/drawing.h>
+#include <stdio.h>
 
 void Sprite_create(Sprite* sprite, uint8_t tile_count, uint8_t* image_data)
 {
