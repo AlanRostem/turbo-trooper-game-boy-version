@@ -10,7 +10,7 @@ uint8_t uint8_get_bit(uint8_t integer, uint8_t bit_position) {
 }
 
 uint8_t uint8_get_rightmost_set_bit_position(uint8_t integer) {
-    return uint8_binary_log((integer & (sizeof(uint8_t) - 1)) + 1);
+    return uint8_binary_log((integer & (256 - integer))) + 1;
 }
 
 uint8_t uint8_binary_log(uint8_t integer) {
