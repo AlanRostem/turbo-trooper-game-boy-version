@@ -14,11 +14,11 @@ Sprite bricks_single_sprite;
 int main()
 {
     Sprite_create(&cracked_stone_sprite, 1, CrackedStoneTile);
-    Sprite_setup_for_display(&cracked_stone_sprite);
+    Sprite_allocate_on_display(&cracked_stone_sprite);
     Sprite_set_position(&cracked_stone_sprite, 10, 80);
 
     Sprite_create(&bricks_single_sprite, 1, BricksSingleTile);
-    Sprite_setup_for_display(&bricks_single_sprite);
+    Sprite_allocate_on_display(&bricks_single_sprite);
     Sprite_set_position(&bricks_single_sprite, 40, 80);
 
     Graphics_show_sprites();

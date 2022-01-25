@@ -11,10 +11,14 @@ void Sprite_create(Sprite* sprite, uint8_t tile_count, uint8_t* image_data)
     sprite->tile_position_in_memory = Memory_allocate_and_write_sprite_data(sprite->tile_count, sprite->image_data);
 }
 
-void Sprite_setup_for_display(Sprite* sprite)
+void Sprite_allocate_on_display(Sprite* sprite)
 {
     sprite->hardware_sprite_number = Memory_generate_hardware_sprite_number();
     set_sprite_tile(sprite->hardware_sprite_number, sprite->tile_position_in_memory);
+}
+
+void Sprite_free_from_display(Sprite *sprite) {
+    Memory_free_hardware_sprite_number(sprite->hardware_sprite_number);
 }
 
 void Sprite_set_frame(Sprite* sprite, uint8_t frame)
