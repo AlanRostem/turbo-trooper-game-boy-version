@@ -1,8 +1,6 @@
 #pragma once
 #include <gb/gb.h>
 
-const uint8_t SPRITE_SIZE = 8;
-
 // This is mainly for re-usability among other types of sprites
 typedef struct {
     uint8_t* image_data_ref;
