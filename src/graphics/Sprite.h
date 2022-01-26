@@ -1,9 +1,11 @@
 #pragma once
 #include <gb/gb.h>
 
+const uint8_t SPRITE_SIZE = 8;
+
 // This is mainly for re-usability among other types of sprites
 typedef struct {
-    uint8_t* image_data;
+    uint8_t* image_data_ref;
     uint8_t tile_count;
     uint8_t vram_tile_position;
 } SpriteData;
@@ -15,6 +17,7 @@ typedef struct {
     uint8_t hardware_sprite_number;
 } SingleSprite;
 
+extern void SingleSprite_create(SingleSprite * sprite, uint8_t tile_count, uint8_t* image_data);
 extern void SingleSprite_allocate_on_display(SingleSprite *sprite);
 extern void SingleSprite_free_from_display(SingleSprite *sprite);
 extern void SingleSprite_set_frame(SingleSprite *sprite, uint8_t frame);
