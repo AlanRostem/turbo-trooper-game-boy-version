@@ -4,7 +4,6 @@
 typedef struct {
     uint8_t start_frame;
     uint8_t end_frame;
-    uint16_t frame_time_ms;
 } SpriteAnimation;
 
 // This is mainly for re-usability among other types of sprites
