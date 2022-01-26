@@ -3,8 +3,8 @@
 #include "assets/sprites/BricksSingleTile.h"
 #include "assets/sprites/PlayerTestSprite.h"
 
-#include "graphics/Sprite.h"
-#include "graphics/MetaSprite.h"
+#include "src/graphics/sprite/Sprite.h"
+#include "src/graphics/sprite/MetaSprite.h"
 #include "graphics/Graphics.h"
 
 const uint8_t FRAME_DELTA = 17;

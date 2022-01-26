@@ -1,6 +1,5 @@
 #include "MetaSprite.h"
-#include "../memory/Memory.h"
-#include <stdio.h>
+#include "src/memory/Memory.h"
 
 void MetaSprite_create(MetaSprite *sprite, MetaSpriteTileDimensions tile_dimensions, uint8_t tile_count, uint8_t *image_data) {
     SpriteData_create(&sprite->data, tile_count, image_data);
@@ -29,4 +28,8 @@ void MetaSprite_set_position(MetaSprite *sprite, uint8_t x, uint8_t y) {
                     x + (i % sprite->tile_dimensions) * SPRITE_SIZE,
                     y + (i / sprite->tile_dimensions) * SPRITE_SIZE);
     }
+}
+
+void MetaSprite_set_frame(MetaSprite *sprite, uint8_t relative_sprite_number, uint8_t frame) {
+    set_sprite_tile(sprite->hardware_sprite_number_buffer_ref[relative_sprite_number], frame);
 }

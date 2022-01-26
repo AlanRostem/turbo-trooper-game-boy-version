@@ -18,3 +18,4 @@ extern void MetaSprite_create(MetaSprite *sprite, MetaSpriteTileDimensions tile_
 extern void MetaSprite_allocate_on_display(MetaSprite *sprite, uint8_t *hardware_sprite_number_buffer);
 extern void MetaSprite_free_from_display(MetaSprite *sprite);
 extern void MetaSprite_set_position(MetaSprite *sprite, uint8_t x, uint8_t y);
+extern void MetaSprite_set_frame(MetaSprite *sprite, uint8_t relative_sprite_number, uint8_t frame);

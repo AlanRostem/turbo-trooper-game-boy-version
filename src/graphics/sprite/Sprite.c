@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include "../memory/Memory.h"
+#include "src/memory/Memory.h"
 
 #include <gb/drawing.h>
 
@@ -12,7 +12,6 @@ void SpriteData_create(SpriteData* data, uint8_t tile_count, uint8_t* image_data
 void SingleSprite_create(SingleSprite *sprite, uint8_t tile_count, uint8_t *image_data) {
     SpriteData_create(&sprite->data, tile_count, image_data);
 }
-
 
 void SingleSprite_allocate_on_display(SingleSprite *sprite) {
     sprite->hardware_sprite_number = Memory_generate_hardware_sprite_number();
