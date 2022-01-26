@@ -2,32 +2,31 @@
 #include "../memory/Memory.h"
 
 #include <gb/drawing.h>
-#include <stdio.h>
 
-void Sprite_create(Sprite* sprite, uint8_t tile_count, uint8_t* image_data) {
-    sprite->image_data = image_data;
-    sprite->tile_count = tile_count;
-    sprite->tile_position_in_memory = Memory_allocate_and_write_sprite_data(sprite->tile_count, sprite->image_data);
+void SpriteData_create(SpriteData* data, uint8_t tile_count, uint8_t* image_data) {
+    data->image_data = image_data;
+    data->tile_count = tile_count;
+    data->vram_tile_position = Memory_allocate_and_write_sprite_data(data->tile_count, data->image_data);
 }
 
-void Sprite_allocate_on_display(Sprite* sprite) {
+void SingleSprite_allocate_on_display(SingleSprite *sprite) {
     sprite->hardware_sprite_number = Memory_generate_hardware_sprite_number();
-    set_sprite_tile(sprite->hardware_sprite_number, sprite->tile_position_in_memory);
+    set_sprite_tile(sprite->hardware_sprite_number, sprite->data.vram_tile_position);
 }
 
-void Sprite_free_from_display(Sprite *sprite) {
+void SingleSprite_free_from_display(SingleSprite *sprite) {
     Memory_free_hardware_sprite_number(sprite->hardware_sprite_number);
 }
 
-void Sprite_set_frame(Sprite* sprite, uint8_t frame) {
-    set_sprite_tile(sprite->hardware_sprite_number, sprite->tile_position_in_memory + frame);
+void SingleSprite_set_frame(SingleSprite *sprite, uint8_t frame) {
+    set_sprite_tile(sprite->hardware_sprite_number, sprite->data.vram_tile_position + frame);
 }
 
-uint8_t Sprite_get_frame(Sprite *sprite) {
+uint8_t SingleSprite_get_frame(SingleSprite *sprite) {
     return get_sprite_tile(sprite->hardware_sprite_number);
 }
 
-void Sprite_set_position(Sprite* sprite, uint8_t x, uint8_t y)
+void SingleSprite_set_position(SingleSprite *sprite, uint8_t x, uint8_t y)
 {
     move_sprite(sprite->hardware_sprite_number, x, y);
 }

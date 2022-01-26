@@ -8,18 +8,18 @@
 
 const uint8_t FRAME_DELTA = 17;
 
-Sprite cracked_stone_sprite;
-Sprite bricks_single_sprite;
+SingleSprite cracked_stone_sprite;
+SingleSprite bricks_single_sprite;
 
 int main()
 {
-    Sprite_create(&cracked_stone_sprite, 1, CrackedStoneTile);
-    Sprite_allocate_on_display(&cracked_stone_sprite);
-    Sprite_set_position(&cracked_stone_sprite, 10, 80);
+    SpriteData_create(&cracked_stone_sprite.data, 1, CrackedStoneTile);
+    SingleSprite_allocate_on_display(&cracked_stone_sprite);
+    SingleSprite_set_position(&cracked_stone_sprite, 10, 80);
 
-    Sprite_create(&bricks_single_sprite, 1, BricksSingleTile);
-    Sprite_allocate_on_display(&bricks_single_sprite);
-    Sprite_set_position(&bricks_single_sprite, 40, 80);
+    SpriteData_create(&bricks_single_sprite.data, 1, BricksSingleTile);
+    SingleSprite_allocate_on_display(&bricks_single_sprite);
+    SingleSprite_set_position(&bricks_single_sprite, 40, 80);
 
     Graphics_show_sprites();
     /*while(1) {

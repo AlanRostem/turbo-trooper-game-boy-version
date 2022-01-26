@@ -13,6 +13,7 @@ uint8_t Memory_allocate_and_write_sprite_data(uint8_t tile_count, uint8_t* image
     return mem_pos;
 }
 
+// TODO: Optimize by making all local variables global. The game boy cannot handle local vars
 uint8_t Memory_generate_hardware_sprite_number() {
     for (uint8_t i = 0; i < 5; i++) {
         uint8_t bit_mask = unused_hardware_sprite_bit_masks[i];
@@ -25,6 +26,7 @@ uint8_t Memory_generate_hardware_sprite_number() {
     return MAX_HARDWARE_SPRITES;
 }
 
+// TODO: Optimize by making all local variables global. The game boy cannot handle local vars
 uint8_t Memory_free_hardware_sprite_number(uint8_t sprite_number) {
     uint8_t i = sprite_number / 8;
     unused_hardware_sprite_bit_masks[i] = uint8_set_bit(unused_hardware_sprite_bit_masks[i], sprite_number % 8, TRUE);
