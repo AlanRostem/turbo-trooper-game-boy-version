@@ -31,5 +31,5 @@ void MetaSprite_set_position(MetaSprite *sprite, uint8_t x, uint8_t y) {
 }
 
 void MetaSprite_set_frame(MetaSprite *sprite, uint8_t relative_sprite_number, uint8_t frame) {
-    set_sprite_tile(sprite->hardware_sprite_number_buffer_ref[relative_sprite_number], frame);
+    set_sprite_tile(sprite->hardware_sprite_number_buffer_ref[relative_sprite_number], sprite->data.vram_tile_position + frame);
 }
