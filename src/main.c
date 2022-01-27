@@ -1,4 +1,3 @@
-
 #include "assets/sprites/CrackedStoneTile.h"
 #include "assets/sprites/BricksSingleTile.h"
 #include "assets/sprites/PlayerTestSprite.h"
@@ -48,7 +47,7 @@ int main()
 
     Graphics_show_sprites();
     while(1) {
-        if (has_frame_timer_exceeded_wait_time(&player_test_animation_elapsed_frame_time, 150, FRAME_DELTA)) {
+        if (has_frame_timer_exceeded_wait_time(&player_test_animation_elapsed_frame_time, 100, FRAME_DELTA)) {
             for (i = 0; i < 4; i++) {
                 MetaSprite_set_frame(&player_meta_sprite, i,
                                      SpriteAnimation_get_current_frame(&player_run_animations[i]));
