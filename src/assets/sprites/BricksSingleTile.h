@@ -1,5 +1,5 @@
 #pragma once
-#include <gb/gb.h>
+#include "../../util/TypeDefs.h"
 /*
 
  BRICKSSINGLETILE.H
@@ -28,6 +28,6 @@
 /* Bank of tiles. */
 #define BricksSingleTileBank 0
 /* Start of tile array. */
-extern uint8_t BricksSingleTile[];
+extern ImageData BricksSingleTile[];
 
 /* End of BRICKSSINGLETILE.H */

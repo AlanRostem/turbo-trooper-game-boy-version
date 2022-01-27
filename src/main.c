@@ -6,6 +6,7 @@
 #include "src/graphics/sprite/Sprite.h"
 #include "src/graphics/sprite/MetaSprite.h"
 #include "graphics/Graphics.h"
+#include "util/Util.h"
 
 const uint8_t FRAME_DELTA = 17;
 
@@ -15,24 +16,31 @@ SingleSprite bricks_single_sprite;
 MetaSprite player_meta_sprite;
 uint8_t player_meta_sprite_numbers[4];
 
+SpriteAnimation player_test_animation = {0, 3};
+uint16_t player_test_animation_elapsed_frame_time = 0;
+
 int main()
 {
     SingleSprite_create(&cracked_stone_sprite, 1, CrackedStoneTile);
-    SingleSprite_allocate_on_display(&cracked_stone_sprite);
+    SingleSprite_occupy_display(&cracked_stone_sprite);
     SingleSprite_set_position(&cracked_stone_sprite, 10, 80);
 
     SingleSprite_create(&bricks_single_sprite, 1, BricksSingleTile);
-    SingleSprite_allocate_on_display(&bricks_single_sprite);
+    SingleSprite_occupy_display(&bricks_single_sprite);
     SingleSprite_set_position(&bricks_single_sprite, 40, 80);
 
     MetaSprite_create(&player_meta_sprite, META_SPRITE_TILE_DIMENSION_16x16, 4, PlayerTestSprite);
-    MetaSprite_allocate_on_display(&player_meta_sprite, player_meta_sprite_numbers);
+    MetaSprite_occupy_display(&player_meta_sprite, player_meta_sprite_numbers);
     MetaSprite_set_position(&player_meta_sprite, 32, 20);
 
     Graphics_show_sprites();
-    /*while(1) {
-        // Sprite_animate(&cr)
+    while(1) {
+        if (has_frame_timer_exceeded_wait_time(&player_test_animation_elapsed_frame_time, 800, FRAME_DELTA)) {
+            SpriteAnimation_loop(&player_test_animation);
+            MetaSprite_set_frame(&player_meta_sprite, 0, SpriteAnimation_get_current_frame(&player_test_animation));
+        }
+
         delay(FRAME_DELTA);
-    }*/
+    }
     return 0;
 }

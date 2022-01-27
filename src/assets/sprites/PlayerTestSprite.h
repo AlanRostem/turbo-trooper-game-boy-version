@@ -1,5 +1,5 @@
 #pragma once
-#include <gb/gb.h>
+#include "../../util/TypeDefs.h"
 
 /*
 
@@ -29,6 +29,6 @@
 /* Bank of tiles. */
 #define PlayerTestSpriteBank 0
 /* Start of tile array. */
-extern uint8_t PlayerTestSprite[];
+extern ImageData PlayerTestSprite[];
 
 /* End of PLAYERTESTSPRITE.H */

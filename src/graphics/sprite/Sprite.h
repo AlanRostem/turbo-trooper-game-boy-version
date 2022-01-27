@@ -4,7 +4,12 @@
 typedef struct {
     uint8_t start_frame;
     uint8_t end_frame;
+    uint8_t current_relative_frame;
 } SpriteAnimation;
+
+extern void SpriteAnimation_loop(SpriteAnimation* animation);
+extern uint8_t SpriteAnimation_get_current_frame(SpriteAnimation* animation);
+
 
 // This is mainly for re-usability among other types of sprites
 typedef struct {
@@ -21,7 +26,7 @@ typedef struct {
 } SingleSprite;
 
 extern void SingleSprite_create(SingleSprite * sprite, uint8_t tile_count, uint8_t* image_data);
-extern void SingleSprite_allocate_on_display(SingleSprite *sprite);
+extern void SingleSprite_occupy_display(SingleSprite *sprite);
 extern void SingleSprite_free_from_display(SingleSprite *sprite);
 extern void SingleSprite_set_frame(SingleSprite *sprite, uint8_t frame);
 extern uint8_t SingleSprite_get_frame(SingleSprite *sprite);
