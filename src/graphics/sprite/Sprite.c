@@ -3,15 +3,18 @@
 
 #include <gb/drawing.h>
 
+void SpriteAnimation_create(SpriteAnimation *animation, uint8_t frame_count, uint8_t *frames_buffer) {
+    animation->frame_count = frame_count;
+    animation->frames_buffer_ref = frames_buffer;
+}
+
 void SpriteAnimation_loop(SpriteAnimation *animation) {
-    static uint8_t diff;
-    diff = animation->end_frame - animation->start_frame + 1;
-    animation->current_relative_frame++;
-    animation->current_relative_frame %= diff;
+    animation->current_frame_index++;
+    animation->current_frame_index %= animation->frame_count;
 }
 
 uint8_t SpriteAnimation_get_current_frame(SpriteAnimation* animation) {
-    return animation->start_frame + animation->current_relative_frame;
+    return animation->frames_buffer_ref[animation->current_frame_index];
 }
 
 void SpriteData_create(SpriteData* data, uint8_t tile_count, uint8_t* image_data) {
@@ -41,7 +44,7 @@ uint8_t SingleSprite_get_frame(SingleSprite *sprite) {
     return get_sprite_tile(sprite->hardware_sprite_number);
 }
 
-void SingleSprite_set_position(SingleSprite *sprite, uint8_t x, uint8_t y)
-{
+void SingleSprite_set_position(SingleSprite *sprite, uint8_t x, uint8_t y) {
     move_sprite(sprite->hardware_sprite_number, x, y);
 }
+

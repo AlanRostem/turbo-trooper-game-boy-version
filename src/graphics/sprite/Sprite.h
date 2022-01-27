@@ -2,14 +2,14 @@
 #include <gb/gb.h>
 
 typedef struct {
-    uint8_t start_frame;
-    uint8_t end_frame;
-    uint8_t current_relative_frame;
+    uint8_t* frames_buffer_ref;
+    uint8_t frame_count;
+    uint8_t current_frame_index;
 } SpriteAnimation;
 
+extern void SpriteAnimation_create(SpriteAnimation* animation, uint8_t frame_count, uint8_t* frames_buffer);
 extern void SpriteAnimation_loop(SpriteAnimation* animation);
 extern uint8_t SpriteAnimation_get_current_frame(SpriteAnimation* animation);
-
 
 // This is mainly for re-usability among other types of sprites
 typedef struct {

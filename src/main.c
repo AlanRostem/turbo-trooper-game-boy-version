@@ -16,7 +16,14 @@ SingleSprite bricks_single_sprite;
 MetaSprite player_meta_sprite;
 uint8_t player_meta_sprite_numbers[4];
 
-SpriteAnimation player_test_animation = {0, 3};
+uint8_t player_run_animation_frames[4][4] = {
+    {8, 8, 10, 10},
+    {9, 9, 11, 11},
+    {12, 14, 16, 18},
+    { 13, 15, 17, 19},
+};
+
+SpriteAnimation player_run_animations[4];
 uint16_t player_test_animation_elapsed_frame_time = 0;
 
 int main()
@@ -29,15 +36,25 @@ int main()
     SingleSprite_occupy_display(&bricks_single_sprite);
     SingleSprite_set_position(&bricks_single_sprite, 40, 80);
 
-    MetaSprite_create(&player_meta_sprite, META_SPRITE_TILE_DIMENSION_16x16, 4, PlayerTestSprite);
+    SpriteAnimation_create(&player_run_animations[0], 4, player_run_animation_frames[0]);
+    SpriteAnimation_create(&player_run_animations[1], 4, player_run_animation_frames[1]);
+    SpriteAnimation_create(&player_run_animations[2], 4, player_run_animation_frames[2]);
+    SpriteAnimation_create(&player_run_animations[3], 4, player_run_animation_frames[3]);
+
+    MetaSprite_create(&player_meta_sprite, META_SPRITE_TILE_DIMENSION_16x16, 22, PlayerTestSprite);
     MetaSprite_occupy_display(&player_meta_sprite, player_meta_sprite_numbers);
     MetaSprite_set_position(&player_meta_sprite, 32, 20);
 
+
     Graphics_show_sprites();
     while(1) {
-        if (has_frame_timer_exceeded_wait_time(&player_test_animation_elapsed_frame_time, 800, FRAME_DELTA)) {
-            SpriteAnimation_loop(&player_test_animation);
-            MetaSprite_set_frame(&player_meta_sprite, 0, SpriteAnimation_get_current_frame(&player_test_animation));
+        if (has_frame_timer_exceeded_wait_time(&player_test_animation_elapsed_frame_time, 120, FRAME_DELTA)) {
+            static uint8_t i;
+            for (i = 0; i < 4; i++) {
+                SpriteAnimation_loop(&player_run_animations[i]);
+                MetaSprite_set_frame(&player_meta_sprite, i,
+                                     SpriteAnimation_get_current_frame(&player_run_animations[i]));
+            }
         }
 
         delay(FRAME_DELTA);
