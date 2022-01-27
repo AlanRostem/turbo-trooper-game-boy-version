@@ -42,8 +42,8 @@ int main()
 
     MetaSprite_create(&player_meta_sprite, META_SPRITE_TILE_DIMENSION_16x16, 22, PlayerTestSprite);
     MetaSprite_occupy_display(&player_meta_sprite, player_meta_sprite_numbers);
-    MetaSprite_set_position(&player_meta_sprite, 32, 20);
-
+    MetaSprite_set_flipped(&player_meta_sprite, TRUE);
+    MetaSprite_set_position_flipped_h(&player_meta_sprite, 32, 20);
 
     Graphics_show_sprites();
     while(1) {

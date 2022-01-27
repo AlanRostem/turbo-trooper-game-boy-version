@@ -1,6 +1,12 @@
 #pragma once
 #include <gb/gb.h>
 
+typedef enum {
+    SPRITE_PROP_BIT_H_FLIP = 5,
+    SPRITE_PROP_BIT_V_FLIP = 6,
+    SPRITE_PROP_BIT_DRAW_BEHIND_BG = 7,
+} SpritePropBit;
+
 typedef struct {
     uint8_t* frames_buffer_ref;
     uint8_t frame_count;
