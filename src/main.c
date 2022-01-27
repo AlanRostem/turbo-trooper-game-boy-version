@@ -55,6 +55,11 @@ int main()
             }
         }
 
+        switch (joypad()) {
+            case J_START:
+                return 0;
+        }
+
         delay(FRAME_DELTA);
     }
     return 0;
