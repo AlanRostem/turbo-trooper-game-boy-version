@@ -6,4 +6,4 @@ typedef struct {
     Vector2 velocity;
 } PhysicsBody;
 
-extern void PhysicsBody_update_with_gravity(PhysicsBody* body);
+extern void PhysicsBody_process_with_gravity(PhysicsBody* body);

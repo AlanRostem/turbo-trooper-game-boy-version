@@ -1,7 +1,8 @@
 #include "Memory.h"
-#include "../util/Util.h"
+#include "src/util/Util.h"
 
 static uint8_t vram_tiles_occupied = 0;
+uint8_t global_for_loop_i = 0;
 
 // Allocate 40 bits
 static uint8_t unused_hardware_sprite_bit_masks[5] = {255, 255, 255, 255,255};

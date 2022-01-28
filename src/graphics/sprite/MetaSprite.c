@@ -1,5 +1,5 @@
 #include "MetaSprite.h"
-#include "src/memory/Memory.h"
+#include "../../system/memory/Memory.h"
 #include "src/util/TypeDefs.h"
 #include "src/util/Util.h"
 

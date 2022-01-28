@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include "src/memory/Memory.h"
+#include "../../system/memory/Memory.h"
 
 #include <gb/drawing.h>
 

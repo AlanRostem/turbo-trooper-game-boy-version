@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "stdio.h": "c",
-        "gb.h": "c",
-        "crackedstonetile.h": "c",
-        "sprite.h": "c",
-        "drawing.h": "c"
-    }
-}
