@@ -17,14 +17,10 @@ void PhysicsBody_process(PhysicsBody *body) {
     PhysicsBody_process_y_collision(body);
 }
 
-bool_t PhysicsBody_is_on_floor(PhysicsBody *body) {
-    return body->shape.pos.y + body->shape.size.y > TEST_FLOOR_MAX;
-}
-
 void PhysicsBody_process_y_collision(PhysicsBody *body) {
-    int16_t is_on_floor = PhysicsBody_is_on_floor(body);
-    body->shape.pos.y = (!is_on_floor) * body->shape.pos.y + is_on_floor * (TEST_FLOOR_MAX - body->shape.size.y);
-    body->velocity.y *= (!is_on_floor);
+    body->is_on_floor = body->shape.pos.y + body->shape.size.y > TEST_FLOOR_MAX;
+    body->shape.pos.y = (!body->is_on_floor) * body->shape.pos.y + body->is_on_floor * (TEST_FLOOR_MAX - body->shape.size.y);
+    body->velocity.y *= (!body->is_on_floor);
 }
 
 void PhysicsBody_process_x_collision(PhysicsBody *body) {
