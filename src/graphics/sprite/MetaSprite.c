@@ -64,4 +64,3 @@ void MetaSprite_scroll(MetaSprite *sprite, int8_t dx, int8_t dy) {
         scroll_sprite(sprite->hardware_sprite_number_buffer_ref[global_for_loop_i],dx,dy);
     }
 }
-

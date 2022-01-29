@@ -17,6 +17,7 @@ extern void SpriteAnimation_create(SpriteAnimation* animation, uint8_t frame_cou
 extern void SpriteAnimation_loop(SpriteAnimation* animation);
 extern uint8_t SpriteAnimation_get_current_frame(SpriteAnimation* animation);
 
+// Keep track of where a sprite is in vram
 // This is mainly for re-usability among other types of sprites
 typedef struct {
     uint8_t* image_data_ref;
