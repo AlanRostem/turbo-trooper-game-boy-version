@@ -12,8 +12,6 @@ typedef struct {
     bool_t is_on_floor;
 } PhysicsBody;
 
-extern void PhysicsBody_create(PhysicsBody* body, SingleSprite* sprite);
-
 extern void PhysicsBody_process(PhysicsBody* body);
 extern void PhysicsBody_process_with_gravity(PhysicsBody* body);
 

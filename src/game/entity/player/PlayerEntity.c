@@ -7,9 +7,9 @@
 #include "../../physics/PhysicsBody.h"
 
 const int16_t PLAYER_WALK_SPEED = 1;
-const int16_t PLAYER_JUMP_SPEED = 3;
+const int16_t PLAYER_JUMP_SPEED = 6;
 
-PhysicsBody player_body = { {{16, 16}} };
+PhysicsBody player_body = { {{16, 16}, {32, 32}} };
 
 MetaSprite player_meta_sprite;
 uint8_t player_meta_sprite_numbers[4];
