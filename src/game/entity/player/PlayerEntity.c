@@ -25,7 +25,6 @@ SpriteAnimation player_run_animations[4];
 uint16_t player_test_animation_elapsed_frame_time = 0;
 
 void PlayerEntity_create() {
-
     for (global_for_loop_i = 0; global_for_loop_i < 4; global_for_loop_i++) {
         SpriteAnimation_create(&player_run_animations[global_for_loop_i], 4, player_run_animation_frames[global_for_loop_i]);
     }
