@@ -8,6 +8,7 @@ extern const uint16_t GRAVITY;
 typedef struct {
     Rect shape;
     Vector2i16 velocity;
+    uint16_t gravity_slow_down;
 
     bool_t is_on_floor;
 } PhysicsBody;

@@ -1,11 +1,13 @@
 #include "PhysicsBody.h"
 
 const uint16_t GRAVITY = 1;
+const uint16_t GRAVITY_SLOW_DOWN_FRAMES = 2;
 
 const uint16_t TEST_FLOOR_MAX = 160;
 
 void PhysicsBody_process_with_gravity(PhysicsBody* body) {
-    body->velocity.y += GRAVITY;
+    body->gravity_slow_down++;
+    body->velocity.y += GRAVITY * ((body->gravity_slow_down + 1) % GRAVITY_SLOW_DOWN_FRAMES == 0);
     PhysicsBody_process(body);
 }
 
