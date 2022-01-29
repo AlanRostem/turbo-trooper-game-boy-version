@@ -9,7 +9,7 @@
 const int16_t PLAYER_WALK_SPEED;
 const int16_t PLAYER_JUMP_SPEED;
 
-PhysicsBody player_body = { {{16, 16}} };
+PhysicsBody player_body = { {{16, 16}, {32, 32}} };
 bool_t is_player_jumping = FALSE;
 
 MetaSprite player_meta_sprite;
@@ -38,17 +38,16 @@ void PlayerEntity_create() {
 }
 
 void PlayerEntity_process() {
-    switch (joypad()) {
-        case J_LEFT: player_body.velocity.x = PLAYER_WALK_SPEED; break;
-        case J_RIGHT: player_body.velocity.x = -PLAYER_WALK_SPEED; break;
-        case J_A:
-            if (!is_player_jumping) {
-                player_body.velocity.y = -PLAYER_JUMP_SPEED;
-                is_player_jumping = TRUE;
-            }
+    uint8_t pad = joypad();
+    if (pad & J_LEFT) player_body.velocity.x = PLAYER_WALK_SPEED;
+    if (pad & J_RIGHT) player_body.velocity.x = -PLAYER_WALK_SPEED;
+    if (pad & J_A) if (!is_player_jumping) {
+        player_body.velocity.y = PLAYER_JUMP_SPEED;
+        is_player_jumping = TRUE;
     }
     
     PhysicsBody_process_with_gravity(&player_body);
+    //PhysicsBody_process(&player_body);
     //MetaSprite_scroll(&player_meta_sprite, player_body.velocity.x, player_body.velocity.y);
     is_player_jumping = !player_body.is_on_floor;
     player_body.velocity.x *= !player_body.is_on_floor;
