@@ -6,14 +6,13 @@ int main() {
     GameWorld_create();
     Graphics_show_sprites();
     while(1) {
+        wait_vbl_done();
         GameWorld_process();
 
         switch (joypad()) {
             case J_START:
                 return 0;
         }
-
-        delay(PHYSICS_PROCESS_DELTA);
     }
     return 0;
 }
