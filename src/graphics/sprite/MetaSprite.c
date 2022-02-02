@@ -3,7 +3,7 @@
 #include "src/util/TypeDefs.h"
 #include "src/util/Util.h"
 
-const uint8_t SPRITE_SIZE = 8;
+#define SPRITE_SIZE 8
 
 void MetaSprite_create(MetaSprite *sprite, MetaSpriteTileDimensions tile_dimensions, uint8_t tile_count, uint8_t *image_data) {
     SpriteData_create(&sprite->data, tile_count, image_data);

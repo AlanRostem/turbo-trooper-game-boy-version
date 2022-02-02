@@ -1,9 +1,9 @@
 #include "PhysicsBody.h"
 
 #define GRAVITY 1
-#define GRAVITY_SLOW_DOWN_FRAMES 2
+#define GRAVITY_SLOW_DOWN_FRAMES 4
 
-const uint16_t TEST_FLOOR_MAX = 160;
+#define TEST_FLOOR_MAX 160
 
 void PhysicsBody_process_with_gravity(PhysicsBody* body) {
     if (!body->is_on_floor)

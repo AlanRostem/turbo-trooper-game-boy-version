@@ -1,6 +1,7 @@
 #include "graphics/Graphics.h"
 #include "game/GameWorld.h"
-#include "system/System.h"
+#include <time.h>
+#include <stdio.h>
 
 int main() {
     GameWorld_create();

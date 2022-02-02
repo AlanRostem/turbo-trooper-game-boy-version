@@ -3,7 +3,7 @@
 #include "../../graphics/sprite/Sprite.h"
 #include "../../graphics/sprite/MetaSprite.h"
 
-extern const uint16_t GRAVITY;
+#define PHYSICS_PROCESS_DELTA 16
 
 typedef struct {
     Rect shape;

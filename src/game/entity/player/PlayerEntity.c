@@ -3,11 +3,10 @@
 #include "../../../assets/sprites/PlayerTestSprite.h"
 #include "../../../util/Util.h"
 #include "../../../system/memory/Memory.h"
-#include "../../../system/System.h"
 #include "../../physics/PhysicsBody.h"
 
-const int16_t PLAYER_WALK_SPEED = 1;
-const int16_t PLAYER_JUMP_SPEED = 6;
+#define PLAYER_WALK_SPEED 1
+#define PLAYER_JUMP_SPEED 6
 
 PhysicsBody player_body = { {{16, 16}, {32, 32}} };
 
@@ -38,7 +37,7 @@ void PlayerEntity_create() {
 void PlayerEntity_process() {
     uint8_t pad = joypad();
     if (pad & J_LEFT) player_body.velocity.x = -PLAYER_WALK_SPEED;
-    if (pad & J_RIGHT) player_body.velocity.x = PLAYER_WALK_SPEED;
+    else if (pad & J_RIGHT) player_body.velocity.x = PLAYER_WALK_SPEED;
     if (pad & J_A && player_body.is_on_floor) {
         player_body.velocity.y = -PLAYER_JUMP_SPEED;
     }
