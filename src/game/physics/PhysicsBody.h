@@ -5,12 +5,16 @@
 
 #define PHYSICS_PROCESS_DELTA 16
 
+#define PHYSICS_BODY_ITEM(size_x, size_y) { {{(size_x), (size_y)}} }
+
 typedef struct {
     Rect shape;
     Vector2i16 velocity;
     uint8_t gravity_slow_down;
 
     bool_t is_on_floor;
+    bool_t is_on_wall;
+    bool_t is_on_ceiling;
 } PhysicsBody;
 
 extern void PhysicsBody_process(PhysicsBody* body);
