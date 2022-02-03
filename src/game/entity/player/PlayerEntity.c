@@ -13,7 +13,7 @@ PhysicsBody player_body = PHYSICS_BODY_ITEM(16, 16);
 MetaSprite player_meta_sprite;
 uint8_t player_meta_sprite_numbers[4];
 
-uint8_t player_run_animation_frames[4][4] = {
+const uint8_t player_run_animation_frames[4][4] = {
     {8, 8, 10, 8},
     {9, 9, 11, 9},
     {12, 14, 16, 18},
