@@ -46,7 +46,7 @@ void PlayerEntity_process_input() {
     }
 }
 
-void PlayerEntity_physics_process() {
+void PlayerEntity_process_physics() {
     PhysicsBody_process_with_gravity(&player_body);
 
     if (player_body.is_on_floor)
@@ -66,6 +66,6 @@ void PlayerEntity_process_sprite() {
 
 void PlayerEntity_process() {
     PlayerEntity_process_input();
-    PlayerEntity_physics_process();
+    PlayerEntity_process_physics();
     PlayerEntity_process_sprite();
 }
