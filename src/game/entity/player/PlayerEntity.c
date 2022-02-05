@@ -38,7 +38,8 @@ void PlayerEntity_create() {
 }
 
 void PlayerEntity_process_input() {
-    uint8_t pad = joypad();
+    static uint8_t pad;
+    pad = joypad();
     if (pad & J_LEFT) player_body.velocity.x = -PLAYER_WALK_SPEED;
     else if (pad & J_RIGHT) player_body.velocity.x = PLAYER_WALK_SPEED;
     if (pad & J_A && player_body.is_on_floor) {
