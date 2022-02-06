@@ -1,4 +1,5 @@
-#include "../../util/TypeDefs.h"
+#pragma once
+#include "../../util/Util.h"
 
 /*
 
@@ -12,7 +13,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 0
+  Tiles                : 0 to 37
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -26,8 +27,9 @@
 
 
 /* Bank of tiles. */
+
 #define TileSetBank 0
 /* Start of tile array. */
-extern ImageData TileSet[];
+extern RomBytes TileSet[];
 
 /* End of TILESET.H */

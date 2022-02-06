@@ -1,3 +1,4 @@
+#pragma once
 #include "../../util/TypeDefs.h"
 /*
 
@@ -23,6 +24,6 @@
 #define TestTileMapHeight 16
 #define TestTileMapBank 0
 
-extern ImageData TestTileMap[];
+extern RomBytes TestTileMap[];
 
 /* End of TESTTILEMAP.H */

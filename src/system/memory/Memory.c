@@ -36,3 +36,8 @@ uint8_t Memory_free_hardware_sprite_number(uint8_t sprite_number) {
     unused_hardware_sprite_bit_masks[global_for_loop_i] = uint8_set_bit(unused_hardware_sprite_bit_masks[global_for_loop_i], sprite_number % 8, TRUE);
     return 0;
 }
+
+void Memory_allocate_tile_set(uint8_t *tile_set, uint8_t tile_count) {
+    set_bkg_2bpp_data(vram_tiles_occupied, tile_count, tile_set);
+    vram_tiles_occupied += tile_count;
+}
