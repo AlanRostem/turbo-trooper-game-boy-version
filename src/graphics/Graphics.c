@@ -6,6 +6,7 @@ void Graphics_create() {
     Memory_allocate_tile_set(TileSet, 38);
 }
 
-void Graphics_show_sprites() {
+void Graphics_show() {
     SHOW_SPRITES;
+    SHOW_BKG;
 }
