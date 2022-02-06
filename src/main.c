@@ -19,7 +19,7 @@ int main() {
     scroll_bkg(offset_x, 0);
     Graphics_current_camera_offset += offset_x;
     Graphics_current_tile_map_scroll_col = Graphics_current_camera_offset / TILE_SIZE;
-    set_bkg_submap(Graphics_current_tile_map_scroll_col, 0, TILE_MAP_INIT_OFFSET, TILE_MAP_HEIGHT, Graphics_currently_shown_tile_map, TILE_MAP_WIDTH);
+    set_bkg_submap(Graphics_current_tile_map_scroll_col + 31, 0, 1, TILE_MAP_HEIGHT, Graphics_currently_shown_tile_map, TILE_MAP_WIDTH);
 
     GameWorld_create();
     while(1) {
