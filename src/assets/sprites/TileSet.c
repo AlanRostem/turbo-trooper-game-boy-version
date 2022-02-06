@@ -1,11 +1,9 @@
-#pragma once
 #include "../../util/TypeDefs.h"
-
 /*
 
- PLAYERTESTSPRITE.H
+ TILESET.C
 
- Include File.
+ Tile Source File.
 
  Info:
   Form                 : All tiles as one unit.
@@ -13,7 +11,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 3
+  Tiles                : 0 to 0
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -25,10 +23,11 @@
 
 */
 
-
-/* Bank of tiles. */
-#define PlayerTestSpriteBank 0
 /* Start of tile array. */
-extern RomBytes PlayerTestSprite[];
+ImageData TileSet[] =
+{
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+};
 
-/* End of PLAYERTESTSPRITE.H */
+/* End of TILESET.C */
