@@ -29,6 +29,6 @@
 /* Bank of tiles. */
 #define PlayerTestSpriteBank 0
 /* Start of tile array. */
-extern RomBytes PlayerTestSprite[];
+extern RomByte PlayerTestSprite[];
 
 /* End of PLAYERTESTSPRITE.H */

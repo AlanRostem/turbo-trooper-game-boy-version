@@ -29,6 +29,6 @@
 /* Bank of tiles. */
 #define CrackedStoneTileBank 0
 /* Start of tile array. */
-extern RomBytes CrackedStoneTile[];
+extern RomByte CrackedStoneTile[];
 
 /* End of CRACKEDSTONETILE.H */

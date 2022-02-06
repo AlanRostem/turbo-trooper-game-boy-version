@@ -25,6 +25,6 @@
 #define TestTileMapHeight 16
 #define TestTileMapBank 0
 
-extern RomBytes TestTileMap[];
+extern RomByte TestTileMap[];
 
 /* End of TESTTILEMAP.H */

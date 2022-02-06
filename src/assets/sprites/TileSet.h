@@ -30,6 +30,6 @@
 
 #define TileSetBank 0
 /* Start of tile array. */
-extern RomBytes TileSet[];
+extern RomByte TileSet[];
 
 /* End of TILESET.H */

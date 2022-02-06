@@ -28,6 +28,6 @@
 /* Bank of tiles. */
 #define BricksSingleTileBank 0
 /* Start of tile array. */
-extern RomBytes BricksSingleTile[];
+extern RomByte BricksSingleTile[];
 
 /* End of BRICKSSINGLETILE.H */
