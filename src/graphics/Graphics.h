@@ -10,8 +10,8 @@
 #define OUT_OF_SCREEN_RENDERED_TILE_WIDTH 12
 #define TILE_SIZE 8
 
-extern int16_t Graphics_current_camera_offset;
 extern const uint8_t* Graphics_currently_shown_tile_map;
+extern int16_t Graphics_current_camera_offset;
 
 extern void Graphics_create();
 extern void Graphics_show();
