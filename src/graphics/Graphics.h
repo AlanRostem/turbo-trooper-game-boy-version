@@ -11,7 +11,6 @@
 #define TILE_SIZE 8
 
 static int16_t Graphics_current_camera_offset = 0;
-static uint16_t Graphics_current_tile_map_scroll_col = 0;
 static uint8_t* Graphics_currently_shown_tile_map = 0;
 
 extern void Graphics_create();
