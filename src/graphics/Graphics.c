@@ -15,10 +15,13 @@ void Graphics_show() {
 
 void Graphics_scroll_camera(int8_t offset_x) {
     if (offset_x == 0) return;
+    static uint8_t col_bounds_check;
     Graphics_current_camera_offset += offset_x;
+    col_bounds_check = Graphics_current_camera_offset / TILE_SIZE;
+    if (col_bounds_check >= TILE_MAP_WIDTH || col_bounds_check == 0) return;
     scroll_bkg(offset_x, 0);
-    if (Graphics_current_tile_map_scroll_col != Graphics_current_camera_offset / TILE_SIZE) {
-        Graphics_current_tile_map_scroll_col = Graphics_current_camera_offset / TILE_SIZE;
+    if (Graphics_current_tile_map_scroll_col != col_bounds_check) {
+        Graphics_current_tile_map_scroll_col = col_bounds_check;
         if (Graphics_current_tile_map_scroll_col >= MAX_RENDERED_TILE_MAP_WIDTH) {
             set_bkg_submap(Graphics_current_tile_map_scroll_col, 0, TILE_MAP_INIT_OFFSET, TILE_MAP_HEIGHT,
                            Graphics_currently_shown_tile_map, TILE_MAP_WIDTH);
