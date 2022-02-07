@@ -34,7 +34,7 @@ void PlayerEntity_create() {
 
     MetaSprite_set_position(&player_meta_sprite, player_body.shape.pos.x, player_body.shape.pos.y);
 
-    player_body.shape.pos.x = 0;
+    player_body.shape.pos.x = 32;
     player_body.shape.pos.y = 32;
 }
 
@@ -50,13 +50,14 @@ void PlayerEntity_process_input() {
 
 void PlayerEntity_process_physics() {
     PhysicsBody_process_with_gravity(&player_body);
+    Graphics_scroll_camera(player_body.velocity.x);
 
     if (player_body.is_on_floor)
         player_body.velocity.x = 0;
 }
 
 void PlayerEntity_process_sprite() {
-    MetaSprite_set_position(&player_meta_sprite, player_body.shape.pos.x, player_body.shape.pos.y);
+    MetaSprite_set_position(&player_meta_sprite, player_body.shape.pos.x - Graphics_current_camera_offset, player_body.shape.pos.y);
     if (has_frame_timer_exceeded_wait_time(&player_test_animation_elapsed_frame_time, 100, PHYSICS_PROCESS_DELTA)) {
         for (global_for_loop_i = 0; global_for_loop_i < 4; global_for_loop_i++) {
             MetaSprite_set_frame(&player_meta_sprite, global_for_loop_i,

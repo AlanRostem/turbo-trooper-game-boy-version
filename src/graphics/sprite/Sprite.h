@@ -1,5 +1,7 @@
 #pragma once
 #include <gb/gb.h>
+#include "../../util/Util.h"
+
 
 typedef enum {
     SPRITE_PROP_BIT_H_FLIP = 5,
@@ -8,31 +10,31 @@ typedef enum {
 } SpritePropBit;
 
 typedef struct {
-    uint8_t* frames_buffer_ref;
+    RomByte* frames_buffer_ref;
     uint8_t frame_count;
     uint8_t current_frame_index;
 } SpriteAnimation;
 
-extern void SpriteAnimation_create(SpriteAnimation* animation, uint8_t frame_count, uint8_t* frames_buffer);
+extern void SpriteAnimation_create(SpriteAnimation* animation, uint8_t frame_count, RomByte* frames_buffer);
 extern void SpriteAnimation_loop(SpriteAnimation* animation);
 extern uint8_t SpriteAnimation_get_current_frame(SpriteAnimation* animation);
 
 // Keep track of where a sprite is in vram
 // This is mainly for re-usability among other types of sprites
 typedef struct {
-    uint8_t* image_data_ref;
+    RomByte* image_data_ref;
     uint8_t tile_count;
     uint8_t vram_tile_position;
 } SpriteData;
 
-extern void SpriteData_create(SpriteData* data, uint8_t tile_count, uint8_t* image_data);
+extern void SpriteData_create(SpriteData* data, uint8_t tile_count, RomByte* image_data);
 
 typedef struct {
     SpriteData data;
     uint8_t hardware_sprite_number;
 } SingleSprite;
 
-extern void SingleSprite_create(SingleSprite * sprite, uint8_t tile_count, uint8_t* image_data);
+extern void SingleSprite_create(SingleSprite * sprite, uint8_t tile_count, RomByte* image_data);
 extern void SingleSprite_occupy_display(SingleSprite *sprite);
 extern void SingleSprite_free_from_display(SingleSprite *sprite);
 extern void SingleSprite_set_frame(SingleSprite *sprite, uint8_t frame);

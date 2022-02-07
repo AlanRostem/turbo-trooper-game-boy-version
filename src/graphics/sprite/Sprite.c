@@ -3,7 +3,7 @@
 
 #include <gb/drawing.h>
 
-void SpriteAnimation_create(SpriteAnimation *animation, uint8_t frame_count, uint8_t *frames_buffer) {
+void SpriteAnimation_create(SpriteAnimation *animation, uint8_t frame_count, RomByte *frames_buffer) {
     animation->frame_count = frame_count;
     animation->frames_buffer_ref = frames_buffer;
 }
@@ -17,13 +17,13 @@ uint8_t SpriteAnimation_get_current_frame(SpriteAnimation* animation) {
     return animation->frames_buffer_ref[animation->current_frame_index];
 }
 
-void SpriteData_create(SpriteData* data, uint8_t tile_count, uint8_t* image_data) {
+void SpriteData_create(SpriteData* data, uint8_t tile_count, RomByte * image_data) {
     data->image_data_ref = image_data;
     data->tile_count = tile_count;
     data->vram_tile_position = Memory_allocate_and_write_sprite_data(data->tile_count, data->image_data_ref);
 }
 
-void SingleSprite_create(SingleSprite *sprite, uint8_t tile_count, uint8_t *image_data) {
+void SingleSprite_create(SingleSprite *sprite, uint8_t tile_count, RomByte *image_data) {
     SpriteData_create(&sprite->data, tile_count, image_data);
 }
 
