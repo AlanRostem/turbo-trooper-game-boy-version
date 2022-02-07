@@ -11,7 +11,7 @@ typedef enum  {
 
 typedef struct {
     SpriteData data;
-    RomByte* hardware_sprite_number_buffer_ref;
+    uint8_t * hardware_sprite_number_buffer_ref;
     MetaSpriteTileDimensions tile_dimensions;
 } MetaSprite;
 

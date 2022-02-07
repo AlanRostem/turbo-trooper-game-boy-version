@@ -9,7 +9,7 @@
 #define PLAYER_WALK_SPEED 1
 #define PLAYER_JUMP_SPEED 6
 
-PhysicsBody player_body = PHYSICS_BODY_ITEM(16, 16);
+PhysicsBody player_body = PHYSICS_BODY_ITEM(6, 12);
 
 MetaSprite player_meta_sprite;
 uint8_t player_meta_sprite_numbers[4];
@@ -50,14 +50,16 @@ void PlayerEntity_process_input() {
 
 void PlayerEntity_process_physics() {
     PhysicsBody_process_with_gravity(&player_body);
-    Graphics_scroll_camera(player_body.velocity.x);
+    // Graphics_scroll_camera(player_body.velocity.x);
 
     if (player_body.is_on_floor)
         player_body.velocity.x = 0;
 }
 
 void PlayerEntity_process_sprite() {
-    MetaSprite_set_position(&player_meta_sprite, player_body.shape.pos.x - Graphics_current_camera_offset, player_body.shape.pos.y);
+    MetaSprite_set_position(&player_meta_sprite,
+                            player_body.shape.pos.x - 3 - Graphics_current_camera_offset,
+                            player_body.shape.pos.y - 2);
     if (has_frame_timer_exceeded_wait_time(&player_test_animation_elapsed_frame_time, 100, PHYSICS_PROCESS_DELTA)) {
         for (global_for_loop_i = 0; global_for_loop_i < 4; global_for_loop_i++) {
             MetaSprite_set_frame(&player_meta_sprite, global_for_loop_i,

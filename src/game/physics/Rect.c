@@ -1,6 +1,8 @@
 #include "Rect.h"
 
-bool_t Rect_overlap(Rect* rect0, Rect* rect1) {
-    return rect0->pos.x < rect1->pos.x + rect1->size.x && rect0->pos.x + rect0->size.x > rect1->pos.x &&
-    rect0->pos.y > rect1->pos.y + rect1->size.y && rect0->pos.y + rect0->size.y < rect1->pos.y;
+bool_t Rect_overlap(Rect* a, Rect* b) {
+    return  (a->pos.y + a->size.y) > b->pos.y
+        &&  a->pos.y < (b->pos.y + b->size.y)
+        &&  (a->pos.x + a->size.x) > b->pos.x
+        &&  a->pos.x < (b->pos.x + b->size.x);
 }

@@ -8,4 +8,4 @@ typedef struct {
     Vector2i16 pos;
 } Rect;
 
-extern bool_t Rect_overlap(Rect* rect0, Rect* rect1);
+extern bool_t Rect_overlap(Rect* a, Rect* b);
