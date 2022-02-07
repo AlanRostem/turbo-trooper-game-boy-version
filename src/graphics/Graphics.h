@@ -5,7 +5,9 @@
 #define TILE_MAP_WIDTH 48 // This is a test value for now
 #define TILE_MAP_HEIGHT 16
 #define MAX_RENDERED_TILE_MAP_WIDTH 32
+#define MAX_ON_SCREEN_TILE_MAP_WIDTH 20
 #define TILE_MAP_INIT_OFFSET 6
+#define OUT_OF_SCREEN_RENDERED_TILE_WIDTH 12
 #define TILE_SIZE 8
 
 static int16_t Graphics_current_camera_offset = 0;
