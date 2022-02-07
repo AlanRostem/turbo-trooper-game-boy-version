@@ -3,13 +3,13 @@
 #include "assets/tile_maps/TestTileMap.h"
 
 const int16_t offset_x = 0; //(32 + 10) * 8;
-const int16_t speed_x = 1;
+const int16_t speed_x = -1;
 
 int main() {
 
     Graphics_create();
     Graphics_show();
-    Graphics_show_tile_map(0, TestTileMap);
+    Graphics_show_tile_map(TILE_MAP_WIDTH - MAX_ON_SCREEN_TILE_MAP_WIDTH, TestTileMap);
     GameWorld_create();
     while(1) {
         wait_vbl_done();
