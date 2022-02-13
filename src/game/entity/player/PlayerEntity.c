@@ -34,8 +34,8 @@ void PlayerEntity_create() {
 
     MetaSprite_set_position(&player_meta_sprite, player_body.shape.pos.x, player_body.shape.pos.y);
 
-    player_body.shape.pos.x = 128;
-    player_body.shape.pos.y = 32;
+    player_body.shape.pos.x = 56;
+    player_body.shape.pos.y = 0;
 }
 
 void PlayerEntity_process_input() {

@@ -22,9 +22,13 @@ void PhysicsBody_process(PhysicsBody *body) {
     //body->old_pos.y = body->shape.pos.y;
 
     body->shape.pos.x += body->velocity.x;
-    //PhysicsBody_process_x_collision(body);
+    // PhysicsBody_process_x_collision(body);
     body->shape.pos.y += body->velocity.y;
-    PhysicsBody_process_y_collision(body);
+    // PhysicsBody_process_y_collision(body);
+
+    body->is_on_floor = FALSE;
+    body->is_on_wall = FALSE;
+    body->is_on_ceiling = FALSE;
 
     static int16_t tile_coord_x;
     static int16_t tile_coord_y;
@@ -38,7 +42,8 @@ void PhysicsBody_process(PhysicsBody *body) {
             tile_coord_y = (body->shape.pos.y / TILE_SIZE) + i;
             if (tile_coord_x < 0 || tile_coord_x >= TILE_MAP_WIDTH || tile_coord_y < 0 || tile_coord_y >= TILE_MAP_HEIGHT)
                 continue;
-            if (Graphics_currently_shown_tile_map[tile_coord_y * TILE_MAP_WIDTH + tile_coord_x] > 0) {
+            if (Graphics_currently_shown_tile_map[tile_coord_y * TILE_MAP_WIDTH + tile_coord_x] > 0)
+            {
                 tile_rect_test.pos.x = tile_coord_x * TILE_SIZE;
                 tile_rect_test.pos.y = tile_coord_y * TILE_SIZE;
                 if (RECT_OVERLAP(body->shape, tile_rect_test))
