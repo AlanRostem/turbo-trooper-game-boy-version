@@ -10,6 +10,7 @@
 typedef struct {
     Rect shape;
     Vector2i16 velocity;
+    Vector2i16 old_pos;
     uint8_t gravity_slow_down;
 
     bool_t is_on_floor;
