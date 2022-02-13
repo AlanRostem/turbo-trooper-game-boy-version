@@ -29,15 +29,16 @@ void PhysicsBody_process(PhysicsBody *body) {
     static int16_t yy;
     static uint8_t tile;
     static Rect tile_rect_test = {{TILE_SIZE, TILE_SIZE}};
-    for (i = -1; i <= -1; i++) {
-        for (j = -1; j <= -1; j++) {
-            xx = body->shape.pos.x / TILE_SIZE + j;
-            yy = body->shape.pos.y / TILE_SIZE + i;
-            tile = Graphics_currently_shown_tile_map[yy * 3 + xx];
+    for (i = -1; i <= 1; i++) {
+        for (j = -1; j <= 1; j++) {
+            xx = (body->shape.pos.x / TILE_SIZE) + j;
+            yy = (body->shape.pos.y / TILE_SIZE) + i;
+            tile = Graphics_currently_shown_tile_map[yy * TILE_MAP_WIDTH + xx];
             if (tile > 0) {
                 tile_rect_test.pos.x = xx * TILE_SIZE;
                 tile_rect_test.pos.y = yy * TILE_SIZE;
-                if (Rect_overlap(&body->shape, &tile_rect_test)) {
+
+                if (RECT_OVERLAP(body->shape, tile_rect_test)) {
                     if (body->velocity.x > 0) {
                         body->shape.pos.x = tile_rect_test.pos.x - body->shape.size.x;
                         body->velocity.x = 0;
@@ -52,7 +53,6 @@ void PhysicsBody_process(PhysicsBody *body) {
                         body->shape.pos.y = tile_rect_test.pos.y - body->shape.size.y;
                         body->velocity.y = 0;
                         body->is_on_floor = TRUE;
-
                     } else if (body->velocity.y < 0) {
                         body->shape.pos.y = tile_rect_test.pos.y;
                         body->velocity.y = 0;
