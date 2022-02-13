@@ -35,22 +35,31 @@ void PlayerEntity_create() {
     MetaSprite_set_position(&player_meta_sprite, player_body.shape.pos.x, player_body.shape.pos.y);
 
     player_body.shape.pos.x = 56;
-    player_body.shape.pos.y = 0;
+    player_body.shape.pos.y = 32;
 }
 
 void PlayerEntity_process_input() {
     static uint8_t pad;
     pad = joypad();
+    player_body.velocity.x = player_body.velocity.y = 0;
     if (pad & J_LEFT) player_body.velocity.x = -PLAYER_WALK_SPEED;
+    else if (pad & J_RIGHT) player_body.velocity.x = PLAYER_WALK_SPEED;
+    if (pad & J_UP) player_body.velocity.y = -PLAYER_WALK_SPEED;
+    if (pad & J_DOWN) player_body.velocity.y = PLAYER_WALK_SPEED;
+
+    /*
+         if (pad & J_LEFT) player_body.velocity.x = -PLAYER_WALK_SPEED;
     else if (pad & J_RIGHT) player_body.velocity.x = PLAYER_WALK_SPEED;
     if (pad & J_A && player_body.is_on_floor)
     {
         player_body.velocity.y = -PLAYER_JUMP_SPEED;
     }
+     */
 }
 
 void PlayerEntity_process_physics() {
-    PhysicsBody_process_with_gravity(&player_body);
+    //PhysicsBody_process_with_gravity(&player_body);
+    PhysicsBody_process(&player_body);
     // Graphics_scroll_camera(player_body.velocity.x);
 
     if (player_body.is_on_floor)

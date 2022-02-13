@@ -37,9 +37,7 @@ void Graphics_show_tile_map(uint8_t tile_offset_x, RomByte* tile_map) {
 }
 
 void Graphics_show_start_of_tile_map(RomByte *tile_map) {
-    Graphics_show_tile_map(
-            0, //OUT_OF_SCREEN_RENDERED_TILE_WIDTH_HALF,
-            tile_map);
+    Graphics_show_tile_map(OUT_OF_SCREEN_RENDERED_TILE_WIDTH_HALF, tile_map);
 }
 
 void Graphics_show_end_of_tile_map(RomByte *tile_map) {

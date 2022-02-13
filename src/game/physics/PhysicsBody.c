@@ -25,7 +25,6 @@ void PhysicsBody_process(PhysicsBody *body) {
     // PhysicsBody_process_x_collision(body);
     body->shape.pos.y += body->velocity.y;
     // PhysicsBody_process_y_collision(body);
-
     body->is_on_floor = FALSE;
     body->is_on_wall = FALSE;
     body->is_on_ceiling = FALSE;
@@ -46,7 +45,7 @@ void PhysicsBody_process(PhysicsBody *body) {
             {
                 tile_rect_test.pos.x = tile_coord_x * TILE_SIZE;
                 tile_rect_test.pos.y = tile_coord_y * TILE_SIZE;
-                if (RECT_OVERLAP(body->shape, tile_rect_test))
+                if (Rect_overlap(&body->shape, &tile_rect_test))
                 {
                     if (body->velocity.x > 0 && body->shape.pos.x + body->shape.size.x > tile_rect_test.pos.x)// && body->old_pos.x + body->shape.size.x <= tile_rect_test.pos.x)
                     {
