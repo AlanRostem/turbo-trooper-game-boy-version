@@ -4,6 +4,7 @@
 #include "src/util/Util.h"
 
 #define SPRITE_SIZE 8
+#define SPRITE_SCREEN_X_OFFSET_CORRECTION 8
 #define SPRITE_SCREEN_Y_OFFSET_CORRECTION 16
 
 void MetaSprite_create(MetaSprite *sprite, MetaSpriteTileDimensions tile_dimensions, uint8_t tile_count, uint8_t *image_data) {
@@ -29,7 +30,7 @@ void MetaSprite_free_from_display(MetaSprite *sprite) {
 void MetaSprite_set_position(MetaSprite *sprite, uint8_t x, uint8_t y) {
     for (global_for_loop_i = 0; global_for_loop_i < sprite->tile_dimensions * sprite->tile_dimensions; global_for_loop_i++) {
         move_sprite(sprite->hardware_sprite_number_buffer_ref[global_for_loop_i],
-                    x + (global_for_loop_i % sprite->tile_dimensions) * SPRITE_SIZE,
+                    x + (global_for_loop_i % sprite->tile_dimensions) * SPRITE_SIZE + SPRITE_SCREEN_X_OFFSET_CORRECTION,
                     y + (global_for_loop_i / sprite->tile_dimensions) * SPRITE_SIZE + SPRITE_SCREEN_Y_OFFSET_CORRECTION);
     }
 }

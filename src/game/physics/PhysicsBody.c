@@ -43,25 +43,26 @@ void PhysicsBody_process(PhysicsBody *body) {
                 Graphics_currently_shown_tile_map[tile_coord_y * TILE_MAP_WIDTH + tile_coord_x] > 0 &&
                 Rect_overlap_tile(&body->shape, tile_coord_x, tile_coord_y))
             {
-                if (body->velocity.x > 0 && body->shape.pos.x + body->shape.size.x > tile_coord_x * TILE_SIZE)// && body->old_pos.x + body->shape.size.x <= tile_rect_test.pos.x)
+                if (body->velocity.x > 0 && body->shape.pos.x + body->shape.size.x >= tile_coord_x * TILE_SIZE)// && body->old_pos.x + body->shape.size.x <= tile_rect_test.pos.x)
                 {
                     body->is_on_wall = TRUE;
                     body->velocity.x = 0;
                     body->shape.pos.x = tile_coord_x * TILE_SIZE - body->shape.size.x;
                 }
-                else if (body->velocity.x < 0 && body->shape.pos.x < (tile_coord_x + 1) * TILE_SIZE)// && body->old_pos.x >= tile_rect_test.pos.x + TILE_SIZE)
+                else if (body->velocity.x < 0 && body->shape.pos.x <= (tile_coord_x + 1) * TILE_SIZE)// && body->old_pos.x >= tile_rect_test.pos.x + TILE_SIZE)
                 {
                     body->is_on_wall = TRUE;
                     body->velocity.x = 0;
                     body->shape.pos.x = (tile_coord_x + 1) * TILE_SIZE;
                 }
 
-                if (body->velocity.y > 0 && body->shape.pos.y + body->shape.size.y > tile_coord_y * TILE_SIZE)// && body->old_pos.y + body->shape.size.y <= tile_rect_test.pos.y)
+                if (body->velocity.y > 0 && body->shape.pos.y + body->shape.size.y >= tile_coord_y * TILE_SIZE)// && body->old_pos.y + body->shape.size.y <= tile_rect_test.pos.y)
                 {
                     body->is_on_floor = TRUE;
                     body->velocity.y = 0;
                     body->shape.pos.y = tile_coord_y * TILE_SIZE - body->shape.size.y;
-                } else if (body->velocity.y < 0 && body->shape.pos.y < (tile_coord_y + 1) * TILE_SIZE)// && body->old_pos.y >= tile_rect_test.pos.y + TILE_SIZE)
+                }
+                else if (body->velocity.y < 0 && body->shape.pos.y <= (tile_coord_y + 1) * TILE_SIZE)// && body->old_pos.y >= tile_rect_test.pos.y + TILE_SIZE)
                 {
                     body->is_on_ceiling = TRUE;
                     body->velocity.y = 0;
