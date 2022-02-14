@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "PhysicsBody.h"
 #include "../../graphics/Graphics.h"
 #include "../../system/memory/Memory.h"
@@ -9,7 +10,7 @@
 #define TEST_FLOOR_MAX (160 - 4 * 8)
 #define TEST_WALL_MIN 0
 
-void PhysicsBody_process_with_gravity(PhysicsBody* body) {
+void PhysicsBody_process_with_gravity(PhysicsBody *body) {
     if (!body->is_on_floor)
         body->gravity_slow_down = (body->gravity_slow_down + 1) % GRAVITY_SLOW_DOWN_FRAMES;
     if (body->gravity_slow_down == 0)
@@ -31,7 +32,6 @@ void PhysicsBody_process(PhysicsBody *body) {
 
     static int16_t tile_coord_x;
     static int16_t tile_coord_y;
-    static Rect tile_rect_test = {{TILE_SIZE, TILE_SIZE}};
 
     static int16_t i;
     static int16_t j;
@@ -39,41 +39,33 @@ void PhysicsBody_process(PhysicsBody *body) {
         for (j = -1; j <= 1; j++) {
             tile_coord_x = (body->shape.pos.x / TILE_SIZE) + j;
             tile_coord_y = (body->shape.pos.y / TILE_SIZE) + i;
-            if (tile_coord_x < 0 || tile_coord_x >= TILE_MAP_WIDTH || tile_coord_y < 0 || tile_coord_y >= TILE_MAP_HEIGHT)
-                continue;
-            if (Graphics_currently_shown_tile_map[tile_coord_y * TILE_MAP_WIDTH + tile_coord_x] > 0)
+            if (!(tile_coord_x < 0 || tile_coord_x >= TILE_MAP_WIDTH || tile_coord_y < 0 || tile_coord_y >= TILE_MAP_HEIGHT) &&
+                Graphics_currently_shown_tile_map[tile_coord_y * TILE_MAP_WIDTH + tile_coord_x] > 0 &&
+                Rect_overlap_tile(&body->shape, tile_coord_x, tile_coord_y))
             {
-                tile_rect_test.pos.x = tile_coord_x * TILE_SIZE;
-                tile_rect_test.pos.y = tile_coord_y * TILE_SIZE;
-                if (Rect_overlap(&body->shape, &tile_rect_test))
+                if (body->velocity.x > 0 && body->shape.pos.x + body->shape.size.x > tile_coord_x * TILE_SIZE)// && body->old_pos.x + body->shape.size.x <= tile_rect_test.pos.x)
                 {
-                    if (body->velocity.x > 0 && body->shape.pos.x + body->shape.size.x > tile_rect_test.pos.x)// && body->old_pos.x + body->shape.size.x <= tile_rect_test.pos.x)
-                    {
-                        body->is_on_wall = TRUE;
-                        body->velocity.x = 0;
-                        body->shape.pos.x = tile_rect_test.pos.x - body->shape.size.x;
-                    }
+                    body->is_on_wall = TRUE;
+                    body->velocity.x = 0;
+                    body->shape.pos.x = tile_coord_x * TILE_SIZE - body->shape.size.x;
+                }
+                else if (body->velocity.x < 0 && body->shape.pos.x < (tile_coord_x + 1) * TILE_SIZE)// && body->old_pos.x >= tile_rect_test.pos.x + TILE_SIZE)
+                {
+                    body->is_on_wall = TRUE;
+                    body->velocity.x = 0;
+                    body->shape.pos.x = (tile_coord_x + 1) * TILE_SIZE;
+                }
 
-                    if (body->velocity.x < 0 && body->shape.pos.x < tile_rect_test.pos.x + TILE_SIZE)// && body->old_pos.x >= tile_rect_test.pos.x + TILE_SIZE)
-                    {
-                        body->is_on_wall = TRUE;
-                        body->velocity.x = 0;
-                        body->shape.pos.x = tile_rect_test.pos.x + TILE_SIZE;
-                    }
-
-                    if (body->velocity.y > 0 && body->shape.pos.y + body->shape.size.y > tile_rect_test.pos.y)// && body->old_pos.y + body->shape.size.y <= tile_rect_test.pos.y)
-                    {
-                        body->is_on_floor = TRUE;
-                        body->velocity.y = 0;
-                        body->shape.pos.y = tile_rect_test.pos.y - body->shape.size.y;
-                    }
-
-                    if (body->velocity.y < 0 && body->shape.pos.y < tile_rect_test.pos.y + TILE_SIZE)// && body->old_pos.y >= tile_rect_test.pos.y + TILE_SIZE)
-                    {
-                        body->is_on_ceiling = TRUE;
-                        body->velocity.y = 0;
-                        body->shape.pos.y = tile_rect_test.pos.y + TILE_SIZE;
-                    }
+                if (body->velocity.y > 0 && body->shape.pos.y + body->shape.size.y > tile_coord_y * TILE_SIZE)// && body->old_pos.y + body->shape.size.y <= tile_rect_test.pos.y)
+                {
+                    body->is_on_floor = TRUE;
+                    body->velocity.y = 0;
+                    body->shape.pos.y = tile_coord_y * TILE_SIZE - body->shape.size.y;
+                } else if (body->velocity.y < 0 && body->shape.pos.y < (tile_coord_y + 1) * TILE_SIZE)// && body->old_pos.y >= tile_rect_test.pos.y + TILE_SIZE)
+                {
+                    body->is_on_ceiling = TRUE;
+                    body->velocity.y = 0;
+                    body->shape.pos.y = (tile_coord_y + 1) * TILE_SIZE;
                 }
             }
         }

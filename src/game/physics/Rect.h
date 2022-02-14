@@ -1,5 +1,6 @@
 #include "Vector2.h"
 #include "../../util/TypeDefs.h"
+#include "../../graphics/Graphics.h"
 
 #define RECT_OVERLAP(a, b) (((a).pos.y + (a).size.y) > (b).pos.y\
 &&  (a).pos.y < ((b).pos.y + (b).size.y)\
@@ -14,3 +15,4 @@ typedef struct {
 } Rect;
 
 extern bool_t Rect_overlap(Rect* a, Rect* b);
+extern bool_t Rect_overlap_tile(Rect* a, int16_t tile_x, int16_t tile_y);
