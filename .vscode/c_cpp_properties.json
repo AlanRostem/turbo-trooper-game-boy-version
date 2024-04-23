@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/opt/gbdk/include",
+                "${workspaceFolder}/src"
+            ],
+            "cStandard": "c89",
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}
