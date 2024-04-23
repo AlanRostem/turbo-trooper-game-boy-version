@@ -1,1 +1,0 @@
-C:\bgb\bgb cmake-build-debug\turbo-trooper.gb
