@@ -17,6 +17,8 @@
 
 #define PLAYER_SPRITE_FRAME_COUNT (22)
 
+#define PHYSICS_AABB_POOL_MAX_COUNT (12)
+
 enum
 {
     OAM_SPRITE_ID_PLAYER_TOP_LEFT  = 0,
@@ -28,9 +30,22 @@ enum
 
 typedef struct
 {
-    fixed position_x;
-    fixed position_y;
-    uint8_t hardware_sprite_number;
+    fixed x;
+    fixed y;
+} Vec2Fixed;
+
+typedef struct
+{
+    uint8_t extents_x;
+    uint8_t extents_y;
+    Vec2Fixed position;
+    Vec2Fixed velocity;
+} PhysicsAABB;
+
+typedef struct
+{
+    // Test for now
+    unsigned char state;
 } PlayerData;
 
 // GBDK suggests assigning variables to RAM using static.
@@ -46,6 +61,8 @@ typedef struct
 
     // player entity logic
     PlayerData player_data;
+
+    PhysicsAABB physics_aabb_pool[PHYSICS_AABB_POOL_MAX_COUNT];
 } WorkRAM;
 
 static WorkRAM work_ram;
@@ -72,28 +89,30 @@ int main() {
     set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 2);
     set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 3);
 
-    work_ram.player_data.position_x.h = 80;
-    work_ram.player_data.position_y.h = 80;
+    PhysicsAABB* player_aabb = &work_ram.physics_aabb_pool[0];
+
+    player_aabb->position.x.h = 80;
+    player_aabb->position.y.h = 80;
     
     move_sprite(
         OAM_SPRITE_ID_PLAYER_TOP_LEFT, 
-        work_ram.player_data.position_x.h, 
-        work_ram.player_data.position_y.h);
+        player_aabb->position.x.h, 
+        player_aabb->position.y.h);
     
     move_sprite(
         OAM_SPRITE_ID_PLAYER_TOP_RIGHT, 
-        work_ram.player_data.position_x.h + TILE_SIZE, 
-        work_ram.player_data.position_y.h);
+        player_aabb->position.x.h + TILE_SIZE, 
+        player_aabb->position.y.h);
 
     move_sprite(
         OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 
-        work_ram.player_data.position_x.h, 
-        work_ram.player_data.position_y.h + TILE_SIZE);
+        player_aabb->position.x.h, 
+        player_aabb->position.y.h + TILE_SIZE);
 
     move_sprite(
         OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 
-        work_ram.player_data.position_x.h + TILE_SIZE, 
-        work_ram.player_data.position_y.h + TILE_SIZE);
+        player_aabb->position.x.h + TILE_SIZE, 
+        player_aabb->position.y.h + TILE_SIZE);
 
     // Set background tiles
     set_bkg_submap(work_ram.background_tile_offset_x, 0, 
