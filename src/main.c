@@ -54,6 +54,16 @@ typedef struct
 // The best solution is to have all variables in a static struct.
 typedef struct
 {
+    union
+    {
+        struct
+        {
+            uint8_t sprite_number_start;
+            uint8_t x;
+            uint8_t y;
+        } move_meta_sprite_2x2;
+    } func_params;
+
     uint8_t global_i;
 
     // input states
@@ -65,11 +75,36 @@ typedef struct
 
     // player entity logic
     PlayerData player_data;
-
+    
+    // physics
+    uint8_t physics_aabb_active_count;
     PhysicsAABB physics_aabb_pool[PHYSICS_AABB_POOL_MAX_COUNT];
 } WorkRAM;
 
 static WorkRAM work_ram;
+
+inline void move_meta_sprite_2x2()
+{
+    move_sprite(
+        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start,
+        work_ram.func_params.move_meta_sprite_2x2.x, 
+        work_ram.func_params.move_meta_sprite_2x2.y);
+
+    move_sprite(
+        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start + 1, 
+        work_ram.func_params.move_meta_sprite_2x2.x + TILE_SIZE, 
+        work_ram.func_params.move_meta_sprite_2x2.y);
+
+    move_sprite(
+        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start + 2, 
+        work_ram.func_params.move_meta_sprite_2x2.x, 
+        work_ram.func_params.move_meta_sprite_2x2.y + TILE_SIZE);
+
+    move_sprite(
+        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start + 3, 
+        work_ram.func_params.move_meta_sprite_2x2.x + TILE_SIZE, 
+        work_ram.func_params.move_meta_sprite_2x2.y + TILE_SIZE);
+}
 
 int main() {
 
@@ -96,6 +131,7 @@ int main() {
 
 
     // Move player AABB
+    work_ram.physics_aabb_active_count = 1;
     PhysicsAABB* player_aabb = &work_ram.physics_aabb_pool[PLAYER_PHYSICS_AABB_INDEX];
 
     player_aabb->position.x.h = 80;
@@ -121,7 +157,7 @@ int main() {
         work_ram.joypad_input_result = joypad();
 
         // Player input
-#define SPEED (4)
+#define SPEED (1)
         player_aabb->velocity.x.h = 0;
         if (work_ram.joypad_input_result & J_LEFT)
         {
@@ -135,7 +171,7 @@ int main() {
 
         // Physics AABB update
         PhysicsAABB* aabb = work_ram.physics_aabb_pool;
-        for (work_ram.global_i = 0; work_ram.global_i < PHYSICS_AABB_POOL_MAX_COUNT; work_ram.global_i++)
+        for (work_ram.global_i = 0; work_ram.global_i < work_ram.physics_aabb_active_count; work_ram.global_i++)
         {
             aabb->position.x.h += aabb->velocity.x.h;
             aabb->position.y.h += aabb->velocity.y.h;
@@ -143,26 +179,11 @@ int main() {
         }
 
         // Player sprite movement
-        move_sprite(
-            OAM_SPRITE_ID_PLAYER_TOP_LEFT, 
-            player_aabb->position.x.h, 
-            player_aabb->position.y.h);
-    
-        move_sprite(
-            OAM_SPRITE_ID_PLAYER_TOP_RIGHT, 
-            player_aabb->position.x.h + TILE_SIZE, 
-            player_aabb->position.y.h);
-
-        move_sprite(
-            OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 
-            player_aabb->position.x.h, 
-            player_aabb->position.y.h + TILE_SIZE);
-
-        move_sprite(
-            OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 
-            player_aabb->position.x.h + TILE_SIZE, 
-            player_aabb->position.y.h + TILE_SIZE);
-        }
+        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start = OAM_SPRITE_ID_PLAYER_TOP_LEFT;
+        work_ram.func_params.move_meta_sprite_2x2.x = player_aabb->position.x.h;
+        work_ram.func_params.move_meta_sprite_2x2.y = player_aabb->position.y.h;
+        move_meta_sprite_2x2();
+    }
 
     return 0;
 }
