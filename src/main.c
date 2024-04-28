@@ -19,6 +19,8 @@
 
 #define PHYSICS_AABB_POOL_MAX_COUNT (12)
 
+#define PLAYER_PHYSICS_AABB_INDEX (0)
+
 enum
 {
     OAM_SPRITE_ID_PLAYER_TOP_LEFT  = 0,
@@ -52,6 +54,8 @@ typedef struct
 // The best solution is to have all variables in a static struct.
 typedef struct
 {
+    uint8_t global_i;
+
     // input states
     uint8_t joypad_input_result;
 
@@ -84,35 +88,18 @@ int main() {
         PLAYER_SPRITE_FRAME_COUNT, 
         PlayerTestSprite);
 
+    // Player sprite frame set
     set_sprite_tile(OAM_SPRITE_ID_PLAYER_TOP_LEFT, 0);
     set_sprite_tile(OAM_SPRITE_ID_PLAYER_TOP_RIGHT, 1);
     set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 2);
     set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 3);
 
-    PhysicsAABB* player_aabb = &work_ram.physics_aabb_pool[0];
+
+    // Move player AABB
+    PhysicsAABB* player_aabb = &work_ram.physics_aabb_pool[PLAYER_PHYSICS_AABB_INDEX];
 
     player_aabb->position.x.h = 80;
     player_aabb->position.y.h = 80;
-    
-    move_sprite(
-        OAM_SPRITE_ID_PLAYER_TOP_LEFT, 
-        player_aabb->position.x.h, 
-        player_aabb->position.y.h);
-    
-    move_sprite(
-        OAM_SPRITE_ID_PLAYER_TOP_RIGHT, 
-        player_aabb->position.x.h + TILE_SIZE, 
-        player_aabb->position.y.h);
-
-    move_sprite(
-        OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 
-        player_aabb->position.x.h, 
-        player_aabb->position.y.h + TILE_SIZE);
-
-    move_sprite(
-        OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 
-        player_aabb->position.x.h + TILE_SIZE, 
-        player_aabb->position.y.h + TILE_SIZE);
 
     // Set background tiles
     set_bkg_submap(work_ram.background_tile_offset_x, 0, 
@@ -133,7 +120,49 @@ int main() {
         // This is only going to be assigned once
         work_ram.joypad_input_result = joypad();
 
-    }
+        // Player input
+#define SPEED (4)
+        player_aabb->velocity.x.h = 0;
+        if (work_ram.joypad_input_result & J_LEFT)
+        {
+            player_aabb->velocity.x.h = -SPEED;
+        }
+
+        if (work_ram.joypad_input_result & J_RIGHT)
+        {
+            player_aabb->velocity.x.h = SPEED;
+        }
+
+        // Physics AABB update
+        PhysicsAABB* aabb = work_ram.physics_aabb_pool;
+        for (work_ram.global_i = 0; work_ram.global_i < PHYSICS_AABB_POOL_MAX_COUNT; work_ram.global_i++)
+        {
+            aabb->position.x.h += aabb->velocity.x.h;
+            aabb->position.y.h += aabb->velocity.y.h;
+            aabb++;
+        }
+
+        // Player sprite movement
+        move_sprite(
+            OAM_SPRITE_ID_PLAYER_TOP_LEFT, 
+            player_aabb->position.x.h, 
+            player_aabb->position.y.h);
+    
+        move_sprite(
+            OAM_SPRITE_ID_PLAYER_TOP_RIGHT, 
+            player_aabb->position.x.h + TILE_SIZE, 
+            player_aabb->position.y.h);
+
+        move_sprite(
+            OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 
+            player_aabb->position.x.h, 
+            player_aabb->position.y.h + TILE_SIZE);
+
+        move_sprite(
+            OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 
+            player_aabb->position.x.h + TILE_SIZE, 
+            player_aabb->position.y.h + TILE_SIZE);
+        }
 
     return 0;
 }
