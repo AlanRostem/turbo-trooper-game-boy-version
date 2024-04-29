@@ -1,6 +1,5 @@
 #pragma once
-#include "../../util/TypeDefs.h"
-
+#include "util/TypeDefs.h"
 /*
 
  PLAYERTESTSPRITE.H

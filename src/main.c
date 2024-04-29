@@ -50,19 +50,26 @@ typedef struct
     unsigned char state;
 } PlayerData;
 
+/// Union which stores function arguments. Use this in place of 
+/// stack variables and/or function parameters. GBDK recommends
+/// all variables be stored in Work RAM instead pushing and 
+/// popping them on the stack every frame. 
+typedef union
+{
+    struct
+    {
+        uint8_t sprite_number_start;
+        uint8_t x;
+        uint8_t y;
+    } move_meta_sprite_2x2;
+} FuncArgs;
+
 // GBDK suggests assigning variables to RAM using static.
 // The best solution is to have all variables in a static struct.
 typedef struct
 {
-    union
-    {
-        struct
-        {
-            uint8_t sprite_number_start;
-            uint8_t x;
-            uint8_t y;
-        } move_meta_sprite_2x2;
-    } func_params;
+    // 
+    FuncArgs func_args;
 
     uint8_t global_i;
 
@@ -86,24 +93,24 @@ static WorkRAM work_ram;
 inline void move_meta_sprite_2x2()
 {
     move_sprite(
-        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start,
-        work_ram.func_params.move_meta_sprite_2x2.x, 
-        work_ram.func_params.move_meta_sprite_2x2.y);
+        work_ram.func_args.move_meta_sprite_2x2.sprite_number_start,
+        work_ram.func_args.move_meta_sprite_2x2.x, 
+        work_ram.func_args.move_meta_sprite_2x2.y);
 
     move_sprite(
-        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start + 1, 
-        work_ram.func_params.move_meta_sprite_2x2.x + TILE_SIZE, 
-        work_ram.func_params.move_meta_sprite_2x2.y);
+        work_ram.func_args.move_meta_sprite_2x2.sprite_number_start + 1, 
+        work_ram.func_args.move_meta_sprite_2x2.x + TILE_SIZE, 
+        work_ram.func_args.move_meta_sprite_2x2.y);
 
     move_sprite(
-        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start + 2, 
-        work_ram.func_params.move_meta_sprite_2x2.x, 
-        work_ram.func_params.move_meta_sprite_2x2.y + TILE_SIZE);
+        work_ram.func_args.move_meta_sprite_2x2.sprite_number_start + 2, 
+        work_ram.func_args.move_meta_sprite_2x2.x, 
+        work_ram.func_args.move_meta_sprite_2x2.y + TILE_SIZE);
 
     move_sprite(
-        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start + 3, 
-        work_ram.func_params.move_meta_sprite_2x2.x + TILE_SIZE, 
-        work_ram.func_params.move_meta_sprite_2x2.y + TILE_SIZE);
+        work_ram.func_args.move_meta_sprite_2x2.sprite_number_start + 3, 
+        work_ram.func_args.move_meta_sprite_2x2.x + TILE_SIZE, 
+        work_ram.func_args.move_meta_sprite_2x2.y + TILE_SIZE);
 }
 
 int main() {
@@ -179,9 +186,9 @@ int main() {
         }
 
         // Player sprite movement
-        work_ram.func_params.move_meta_sprite_2x2.sprite_number_start = OAM_SPRITE_ID_PLAYER_TOP_LEFT;
-        work_ram.func_params.move_meta_sprite_2x2.x = player_aabb->position.x.h;
-        work_ram.func_params.move_meta_sprite_2x2.y = player_aabb->position.y.h;
+        work_ram.func_args.move_meta_sprite_2x2.sprite_number_start = OAM_SPRITE_ID_PLAYER_TOP_LEFT;
+        work_ram.func_args.move_meta_sprite_2x2.x = player_aabb->position.x.h;
+        work_ram.func_args.move_meta_sprite_2x2.y = player_aabb->position.y.h;
         move_meta_sprite_2x2();
     }
 
