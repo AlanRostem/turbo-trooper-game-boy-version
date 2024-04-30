@@ -2,4 +2,4 @@
 
 #include "util/TypeDefs.h"
 
-extern RomByte RectTestSprite[];
+extern RomByte CollisionMarkSprite[];

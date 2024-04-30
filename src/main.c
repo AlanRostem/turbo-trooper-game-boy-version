@@ -2,7 +2,7 @@
 
 #include "assets/sprites/TileSet.h"
 #include "assets/sprites/PlayerTestSprite.h"
-// #include "assets/sprites/RectTestSprite.h"
+#include "assets/sprites/CollisionMarkSprite.h"
 #include "assets/tile_maps/TestTileMap.h"
 
 #define TILE_MAP_WIDTH (48) // This is a test value for now
@@ -35,6 +35,8 @@ enum
     OAM_SPRITE_ID_PLAYER_TOP_RIGHT,
     OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT,
     OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT,
+    OAM_SPRITE_ID_COLLISION_MARK_NONE,
+    OAM_SPRITE_ID_COLLISION_MARK_ACTIVE,
     __OAM_SPRITE_MAX__ = 40,
 };
 
@@ -161,16 +163,24 @@ int main(void) {
         TileSet);
 
     // Write player sprite to VRAM
-    set_sprite_data(
-        0, 
-        PLAYER_SPRITE_FRAME_COUNT, 
-        PlayerTestSprite);
+    // set_sprite_data(
+    //     0, 
+    //     PLAYER_SPRITE_FRAME_COUNT, 
+    //     PlayerTestSprite);
 
     // Player sprite frame set
-    set_sprite_tile(OAM_SPRITE_ID_PLAYER_TOP_LEFT, 0);
-    set_sprite_tile(OAM_SPRITE_ID_PLAYER_TOP_RIGHT, 1);
-    set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 2);
-    set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 3);
+    // set_sprite_tile(OAM_SPRITE_ID_PLAYER_TOP_LEFT, 0);
+    // set_sprite_tile(OAM_SPRITE_ID_PLAYER_TOP_RIGHT, 1);
+    // set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 2);
+    // set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 3);
+
+    set_sprite_data(
+        0, 
+        2, 
+        CollisionMarkSprite);
+
+    set_sprite_tile(OAM_SPRITE_ID_COLLISION_MARK_NONE, 0);
+    set_sprite_tile(OAM_SPRITE_ID_COLLISION_MARK_ACTIVE, 1);
 
     // Move player AABB
     work_ram.physics_aabb_active_count = 1;
@@ -266,12 +276,12 @@ int main(void) {
         // move_meta_sprite_2x2();
 
         move_sprite(
-            player_aabb->is_colliding ? OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT : OAM_SPRITE_ID_PLAYER_TOP_LEFT, 
+            player_aabb->is_colliding ? OAM_SPRITE_ID_COLLISION_MARK_ACTIVE : OAM_SPRITE_ID_COLLISION_MARK_NONE, 
             player_aabb->position.x.h + 8, 
             player_aabb->position.y.h + 16);
         
         move_sprite(
-            player_aabb->is_colliding ? OAM_SPRITE_ID_PLAYER_TOP_LEFT : OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 
+            player_aabb->is_colliding ? OAM_SPRITE_ID_COLLISION_MARK_NONE : OAM_SPRITE_ID_COLLISION_MARK_ACTIVE, 
             0, 
             0);
     }
