@@ -4,13 +4,13 @@
 #include "assets/sprites/PlayerTestSprite.h"
 #include "assets/tile_maps/TestTileMap.h"
 
-#define TILE_MAP_WIDTH 48 // This is a test value for now
-#define TILE_MAP_HEIGHT 16
-#define MAX_RENDERED_TILE_MAP_WIDTH 32
-#define MAX_ON_SCREEN_TILE_MAP_WIDTH 20
-#define OUT_OF_SCREEN_RENDERED_TILE_WIDTH_HALF 6
-#define OUT_OF_SCREEN_RENDERED_TILE_WIDTH 12
-#define TILE_SIZE 8
+#define TILE_MAP_WIDTH (48) // This is a test value for now
+#define TILE_MAP_HEIGHT (16)
+#define MAX_RENDERED_TILE_MAP_WIDTH (32)
+#define MAX_ON_SCREEN_TILE_MAP_WIDTH (20)
+#define OUT_OF_SCREEN_RENDERED_TILE_WIDTH_HALF (6)
+#define OUT_OF_SCREEN_RENDERED_TILE_WIDTH (12)
+#define TILE_SIZE (8)
 
 #define PLAYER_BODY_WIDTH TILE_SIZE
 #define PLAYER_BODY_HEIGHT TILE_SIZE
@@ -20,6 +20,13 @@
 #define PHYSICS_AABB_POOL_MAX_COUNT (12)
 
 #define PLAYER_PHYSICS_AABB_INDEX (0)
+
+// Bitshift equivalent to (x / 8)
+#define PIXEL_TO_TILE(x) (x >> 3)
+
+#define TILE_TO_PIXEL(x) (x << 3)
+
+#define TILE_TO_IDX(x, y) (y * TILE_MAP_WIDTH + x)
 
 enum
 {
@@ -64,14 +71,30 @@ typedef union
     } move_meta_sprite_2x2;
 } FuncArgs;
 
+/// Union which stores local function variables. Use this in place of 
+/// stack variables. GBDK recommends all variables be stored in Work RAM instead pushing and 
+/// popping them on the stack every frame. 
+typedef union
+{
+    struct
+    {
+        uint8_t tile_x;
+        uint8_t tile_y;
+        uint8_t tile_value;
+        uint16_t index;
+    } physics_aabb_update;
+} FuncStates;
+
 // GBDK suggests assigning variables to RAM using static.
 // The best solution is to have all variables in a static struct.
 typedef struct
 {
     // 
     FuncArgs func_args;
+    FuncStates func_states;
 
-    uint8_t global_i;
+    uint8_t idx8bit;
+    uint16_t idx16bit;
 
     // input states
     uint8_t joypad_input_result;
@@ -79,6 +102,7 @@ typedef struct
     // vram states
     uint8_t background_tile_offset_x;
     uint8_t vram_sprite_allocation_count;
+    uint8_t* current_tilemap_ptr;
 
     // player entity logic
     PlayerData player_data;
@@ -86,6 +110,9 @@ typedef struct
     // physics
     uint8_t physics_aabb_active_count;
     PhysicsAABB physics_aabb_pool[PHYSICS_AABB_POOL_MAX_COUNT];
+
+    
+    uint8_t physics_tilemap[MAX_RENDERED_TILE_MAP_WIDTH * TILE_MAP_HEIGHT];
 } WorkRAM;
 
 static WorkRAM work_ram;
@@ -96,6 +123,7 @@ inline void move_meta_sprite_2x2()
         work_ram.func_args.move_meta_sprite_2x2.sprite_number_start,
         work_ram.func_args.move_meta_sprite_2x2.x, 
         work_ram.func_args.move_meta_sprite_2x2.y);
+    return; // TODO: Remove this
 
     move_sprite(
         work_ram.func_args.move_meta_sprite_2x2.sprite_number_start + 1, 
@@ -117,6 +145,7 @@ int main() {
 
     work_ram.background_tile_offset_x = 0; // OUT_OF_SCREEN_RENDERED_TILE_WIDTH_HALF;
     work_ram.vram_sprite_allocation_count = 0;
+    work_ram.current_tilemap_ptr = TestTileMap;
 
     // Write tile set to VRAM
     set_bkg_data(
@@ -136,7 +165,6 @@ int main() {
     set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 2);
     set_sprite_tile(OAM_SPRITE_ID_PLAYER_BOTTOM_RIGHT, 3);
 
-
     // Move player AABB
     work_ram.physics_aabb_active_count = 1;
     PhysicsAABB* player_aabb = &work_ram.physics_aabb_pool[PLAYER_PHYSICS_AABB_INDEX];
@@ -145,12 +173,26 @@ int main() {
     player_aabb->position.y.h = 80;
 
     // Set background tiles
-    set_bkg_submap(work_ram.background_tile_offset_x, 0, 
+    set_bkg_submap(0, 0, 
         MAX_RENDERED_TILE_MAP_WIDTH, 
         TILE_MAP_HEIGHT, 
-        TestTileMap, 
+        work_ram.current_tilemap_ptr, 
         TILE_MAP_WIDTH);
     move_bkg(work_ram.background_tile_offset_x * TILE_SIZE, 0);
+
+    // Copy the tile map to Work RAM
+    // TODO: no stack
+
+    uint16_t region_w = MAX_RENDERED_TILE_MAP_WIDTH;
+    uint16_t region_h = TILE_MAP_HEIGHT;
+    uint16_t original_rom_map_w = TILE_MAP_WIDTH;
+    for (uint16_t i = 0; i < region_h; i++)
+    {
+        for (uint16_t j = 0; j < region_w; j++)
+        {
+            work_ram.physics_tilemap[j * region_w + i] = work_ram.current_tilemap_ptr[j * original_rom_map_w + i];
+        }
+    }
 
     // Enable bg and sprites
     SHOW_SPRITES;
@@ -158,7 +200,7 @@ int main() {
 
     // Game loop
     while(1) {
-        wait_vbl_done();
+        vsync();
 
         // This is only going to be assigned once
         work_ram.joypad_input_result = joypad();
@@ -175,14 +217,35 @@ int main() {
         {
             player_aabb->velocity.x.h = SPEED;
         }
+        
+        player_aabb->velocity.y.h = 0;
+        if (work_ram.joypad_input_result & J_UP)
+        {
+            player_aabb->velocity.y.h = -SPEED;
+        }
+
+        if (work_ram.joypad_input_result & J_DOWN)
+        {
+            player_aabb->velocity.y.h = SPEED;
+        }
 
         // Physics AABB update
         PhysicsAABB* aabb = work_ram.physics_aabb_pool;
-        for (work_ram.global_i = 0; work_ram.global_i < work_ram.physics_aabb_active_count; work_ram.global_i++)
+        for (work_ram.idx8bit = 0; work_ram.idx8bit < work_ram.physics_aabb_active_count; work_ram.idx8bit++)
         {
-            aabb->position.x.h += aabb->velocity.x.h;
-            aabb->position.y.h += aabb->velocity.y.h;
-            aabb++;
+            work_ram.func_states.physics_aabb_update.tile_x = PIXEL_TO_TILE(aabb->position.x.h);
+            work_ram.func_states.physics_aabb_update.tile_y = PIXEL_TO_TILE(aabb->position.y.h);
+            work_ram.func_states.physics_aabb_update.index = (uint16_t)(
+                    work_ram.func_states.physics_aabb_update.tile_y * region_w +
+                    work_ram.func_states.physics_aabb_update.tile_x);
+            work_ram.func_states.physics_aabb_update.tile_value = work_ram.physics_tilemap[work_ram.func_states.physics_aabb_update.index];
+            if (work_ram.func_states.physics_aabb_update.tile_value != 0)
+            {
+                // Movement
+                aabb->position.x.h += aabb->velocity.x.h;
+                aabb->position.y.h += aabb->velocity.y.h;
+            }
+            aabb++; // Performant iterator for structs
         }
 
         // Player sprite movement
