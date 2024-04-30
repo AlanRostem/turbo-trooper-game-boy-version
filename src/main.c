@@ -114,7 +114,6 @@ typedef struct
     // physics
     uint8_t physics_aabb_active_count;
     PhysicsAABB physics_aabb_pool[PHYSICS_AABB_POOL_MAX_COUNT];
-
     
     uint8_t physics_tilemap[MAX_RENDERED_TILE_MAP_WIDTH * TILE_MAP_HEIGHT];
 } WorkRAM;
@@ -201,7 +200,6 @@ int main(void) {
         j = 0;
         for (; j < region_w; j++)
         {
-            // BUG: values are not being set correctly here.
             work_ram.physics_tilemap[i * region_w + j] = work_ram.current_tilemap_ptr[i * original_rom_map_w + j];
         }
     }
