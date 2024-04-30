@@ -2,6 +2,7 @@
 
 #include "assets/sprites/TileSet.h"
 #include "assets/sprites/PlayerTestSprite.h"
+// #include "assets/sprites/RectTestSprite.h"
 #include "assets/tile_maps/TestTileMap.h"
 
 #define TILE_MAP_WIDTH (48) // This is a test value for now
@@ -45,6 +46,7 @@ typedef struct
 
 typedef struct
 {
+    bool_t is_colliding;
     uint8_t extents_x;
     uint8_t extents_y;
     Vec2Fixed position;
@@ -115,15 +117,20 @@ typedef struct
     uint8_t physics_tilemap[MAX_RENDERED_TILE_MAP_WIDTH * TILE_MAP_HEIGHT];
 } WorkRAM;
 
+static uint16_t i = 0;
+static uint16_t j = 0;
 static WorkRAM work_ram;
 
-inline void move_meta_sprite_2x2()
+inline void move_meta_sprite_2x2(void)
 {
+    // Must be done to correctly align the sprite
+    work_ram.func_args.move_meta_sprite_2x2.x += 8;
+    work_ram.func_args.move_meta_sprite_2x2.y += 16;
+
     move_sprite(
         work_ram.func_args.move_meta_sprite_2x2.sprite_number_start,
         work_ram.func_args.move_meta_sprite_2x2.x, 
         work_ram.func_args.move_meta_sprite_2x2.y);
-    return; // TODO: Remove this
 
     move_sprite(
         work_ram.func_args.move_meta_sprite_2x2.sprite_number_start + 1, 
@@ -141,7 +148,7 @@ inline void move_meta_sprite_2x2()
         work_ram.func_args.move_meta_sprite_2x2.y + TILE_SIZE);
 }
 
-int main() {
+int main(void) {
 
     work_ram.background_tile_offset_x = 0; // OUT_OF_SCREEN_RENDERED_TILE_WIDTH_HALF;
     work_ram.vram_sprite_allocation_count = 0;
@@ -172,27 +179,31 @@ int main() {
     player_aabb->position.x.h = 80;
     player_aabb->position.y.h = 80;
 
+    // Copy the tile map to Work RAM
+    // TODO: no stack
+
+#define region_w            MAX_RENDERED_TILE_MAP_WIDTH
+#define region_h            TILE_MAP_HEIGHT
+#define original_rom_map_w  TILE_MAP_WIDTH
+    i = 0;
+    for (; i < region_h; i++)
+    {
+        j = 0;
+        for (; j < region_w; j++)
+        {
+            // BUG: values are not being set correctly here.
+            work_ram.physics_tilemap[i * region_w + j] = work_ram.current_tilemap_ptr[i * original_rom_map_w + j];
+        }
+    }
+
     // Set background tiles
     set_bkg_submap(0, 0, 
         MAX_RENDERED_TILE_MAP_WIDTH, 
         TILE_MAP_HEIGHT, 
-        work_ram.current_tilemap_ptr, 
-        TILE_MAP_WIDTH);
+        work_ram.physics_tilemap, 
+        MAX_RENDERED_TILE_MAP_WIDTH);
+    
     move_bkg(work_ram.background_tile_offset_x * TILE_SIZE, 0);
-
-    // Copy the tile map to Work RAM
-    // TODO: no stack
-
-    uint16_t region_w = MAX_RENDERED_TILE_MAP_WIDTH;
-    uint16_t region_h = TILE_MAP_HEIGHT;
-    uint16_t original_rom_map_w = TILE_MAP_WIDTH;
-    for (uint16_t i = 0; i < region_h; i++)
-    {
-        for (uint16_t j = 0; j < region_w; j++)
-        {
-            work_ram.physics_tilemap[j * region_w + i] = work_ram.current_tilemap_ptr[j * original_rom_map_w + i];
-        }
-    }
 
     // Enable bg and sprites
     SHOW_SPRITES;
@@ -231,28 +242,38 @@ int main() {
 
         // Physics AABB update
         PhysicsAABB* aabb = work_ram.physics_aabb_pool;
+        static uint8_t i = 0;
         for (work_ram.idx8bit = 0; work_ram.idx8bit < work_ram.physics_aabb_active_count; work_ram.idx8bit++)
         {
+            // Movement
+            aabb->position.x.h += aabb->velocity.x.h;
+            aabb->position.y.h += aabb->velocity.y.h;
+
             work_ram.func_states.physics_aabb_update.tile_x = PIXEL_TO_TILE(aabb->position.x.h);
             work_ram.func_states.physics_aabb_update.tile_y = PIXEL_TO_TILE(aabb->position.y.h);
-            work_ram.func_states.physics_aabb_update.index = (uint16_t)(
-                    work_ram.func_states.physics_aabb_update.tile_y * region_w +
-                    work_ram.func_states.physics_aabb_update.tile_x);
-            work_ram.func_states.physics_aabb_update.tile_value = work_ram.physics_tilemap[work_ram.func_states.physics_aabb_update.index];
-            if (work_ram.func_states.physics_aabb_update.tile_value != 0)
-            {
-                // Movement
-                aabb->position.x.h += aabb->velocity.x.h;
-                aabb->position.y.h += aabb->velocity.y.h;
-            }
+
+            work_ram.func_states.physics_aabb_update.tile_value = work_ram.physics_tilemap[
+                work_ram.func_states.physics_aabb_update.tile_y * region_w +
+                work_ram.func_states.physics_aabb_update.tile_x];
+            aabb->is_colliding = (work_ram.func_states.physics_aabb_update.tile_value != 0);
             aabb++; // Performant iterator for structs
         }
 
         // Player sprite movement
-        work_ram.func_args.move_meta_sprite_2x2.sprite_number_start = OAM_SPRITE_ID_PLAYER_TOP_LEFT;
-        work_ram.func_args.move_meta_sprite_2x2.x = player_aabb->position.x.h;
-        work_ram.func_args.move_meta_sprite_2x2.y = player_aabb->position.y.h;
-        move_meta_sprite_2x2();
+        // work_ram.func_args.move_meta_sprite_2x2.sprite_number_start = OAM_SPRITE_ID_PLAYER_TOP_LEFT;
+        // work_ram.func_args.move_meta_sprite_2x2.x = player_aabb->position.x.h;
+        // work_ram.func_args.move_meta_sprite_2x2.y = player_aabb->position.y.h;
+        // move_meta_sprite_2x2();
+
+        move_sprite(
+            player_aabb->is_colliding ? OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT : OAM_SPRITE_ID_PLAYER_TOP_LEFT, 
+            player_aabb->position.x.h + 8, 
+            player_aabb->position.y.h + 16);
+        
+        move_sprite(
+            player_aabb->is_colliding ? OAM_SPRITE_ID_PLAYER_TOP_LEFT : OAM_SPRITE_ID_PLAYER_BOTTOM_LEFT, 
+            0, 
+            0);
     }
 
     return 0;
